@@ -3,66 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selene - Explorando a Lua</title>
+    <title>Selene - Observatório Lunar 2026</title>
     <style>
+        :root {
+            --moon-white: #f0f0f0;
+            --space-black: #0a0a0c;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #050505 url('https://www.transparenttextures.com/patterns/stardust.png');
+            font-family: 'Inter', sans-serif;
+            background: var(--space-black);
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
+            background-size: 550px 550px, 350px 350px;
             color: white;
+            line-height: 1.6;
             scroll-behavior: smooth;
         }
 
         /* Menu de Navegação */
         nav {
-            background: rgba(0, 0, 0, 0.8);
-            padding: 1rem;
             position: fixed;
-            width: 100%;
             top: 0;
-            z-index: 1000;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1.2rem;
             display: flex;
-            justify-content: space-around;
-            border-bottom: 1px solid #333;
+            justify-content: center;
+            gap: 30px;
+            z-index: 1000;
+            border-bottom: 1px solid var(--glass);
         }
 
-        nav a { color: white; text-decoration: none; font-weight: bold; }
+        nav a {
+            color: var(--moon-white);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
 
-        /* Banner Principal */
+        nav a:hover { color: #888; }
+
+        /* Header */
         header {
-            height: 60vh;
+            height: 80vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000 70%);
+            background: radial-gradient(circle at center, #111 0%, transparent 70%);
         }
 
-        /* Seção de Pesquisa */
-        .search-container { margin: 20px; }
-        input { padding: 10px; border-radius: 20px; border: none; width: 300px; }
+        h1 { font-size: 3.5rem; margin-bottom: 10px; letter-spacing: 5px; }
 
-        /* Seções de Conteúdo */
-        section { padding: 80px 20px; max-width: 1000px; margin: auto; }
+        /* Barra de Pesquisa */
+        .search-box {
+            margin-top: 30px;
+            position: relative;
+        }
 
-        .moon-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
+        #search-input {
+            padding: 15px 25px;
+            width: 350px;
+            border-radius: 30px;
+            border: 1px solid var(--glass);
+            background: var(--glass);
+            color: white;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        /* Seção de Luas e Eventos */
+        .container {
+            max-width: 1100px;
+            margin: 50px auto;
             padding: 20px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
         }
 
-        .moon-img { width: 100px; height: 100px; border-radius: 50%; background: #ccc; }
+        .event-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--glass);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .card:hover { transform: translateY(-10px); border-color: rgba(255,255,255,0.2); }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 { color: #ddd; margin-bottom: 10px; }
+        .card p { font-size: 0.95rem; color: #ccc; }
+        .tag { font-size: 0.7rem; background: #333; padding: 3px 10px; border-radius: 10px; display: inline-block; margin-bottom: 10px; }
 
         footer {
-            background: #111;
-            padding: 20px;
             text-align: center;
-            border-top: 1px solid #333;
+            padding: 40px;
+            background: #050505;
+            border-top: 1px solid var(--glass);
+            margin-top: 50px;
         }
     </style>
 </head>
@@ -70,39 +129,72 @@
 
     <nav>
         <a href="#home">Home</a>
-        <a href="#fases">Fases</a>
-        <a href="#eventos">Eventos 2026</a>
-        <a href="#explicacao">Por que acontece?</a>
+        <a href="#search-section">Pesquisa</a>
+        <a href="#luas">Luas</a>
     </nav>
 
     <header id="home">
-        <h1>O MISTÉRIO DA LUA</h1>
-        <p>Explore as fases e os segredos do nosso satélite natural.</p>
-        <div class="search-container">
-            <input type="text" placeholder="Pesquisar fase ou evento...">
+        <h1>LUNA 2026</h1>
+        <p>Cronograma de eventos astronômicos e mistérios do satélite.</p>
+        
+        <div class="search-box" id="search-section">
+            <input type="text" id="search-input" placeholder="Busque por 'Eclipse', 'Superlua'..." onkeyup="searchEvent()">
         </div>
     </header>
 
-    <section id="fases">
-        <h2>Fases da Lua</h2>
-        <div class="moon-card">
-            <div class="moon-img" style="background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/100px-FullMoon2010.jpg'); background-size: cover;"></div>
-            <div>
-                <h3>Lua Cheia</h3>
-                <p>Ocorre quando a Terra está entre o Sol e a Lua. É o ápice da iluminação.</p>
+    <div class="container" id="luas">
+        <h2 style="margin-bottom: 30px;">Eventos de 2026</h2>
+        
+        <div class="event-grid" id="event-list">
+            
+            <div class="card">
+                <span class="tag">MARÇO 2026</span>
+                <img src="https://images.unsplash.com/photo-1532693322450-2cb5c511067d?auto=format&fit=crop&w=500&q=80" alt="Eclipse Lunar">
+                <h3>Eclipse Lunar Total</h3>
+                <p><strong>O que é:</strong> A Terra se alinha entre o Sol e a Lua, projetando sua sombra total sobre a superfície lunar.</p>
+                <p><strong>Por que acontece:</strong> Ocorre apenas na fase de Lua Cheia, quando a inclinação da órbita permite o alinhamento perfeito dos três corpos celestes.</p>
             </div>
+
+            <div class="card">
+                <span class="tag">AGOSTO 2026</span>
+                <img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=500&q=80" alt="Eclipse Solar Total">
+                <h3>Eclipse Solar Total</h3>
+                <p><strong>O que é:</strong> A Lua passa diretamente entre a Terra e o Sol, bloqueando toda a luz solar por alguns minutos.</p>
+                <p><strong>Por que acontece:</strong> É uma coincidência geométrica onde o diâmetro aparente da Lua é maior que o do Sol visto da Terra.</p>
+            </div>
+
+            <div class="card">
+                <span class="tag">DEZEMBRO 2026</span>
+                <img src="https://images.unsplash.com/photo-1506335969641-799d6389f417?auto=format&fit=crop&w=500&q=80" alt="Superlua">
+                <h3>A Grande Superlua</h3>
+                <p><strong>O que é:</strong> Uma Lua Cheia que parece significativamente maior e mais brilhante que o normal.</p>
+                <p><strong>Por que acontece:</strong> Ocorre quando a fase cheia coincide com o "Perigeu", o ponto da órbita lunar mais próximo da Terra.</p>
+            </div>
+
         </div>
-        </section>
+    </div>
 
-    <section id="explicacao">
-        <h2>Por que as fases acontecem?</h2>
-        <p>As fases da Lua são causadas pela sua **órbita em torno da Terra**. Conforme ela se move, diferentes porções da sua face iluminada pelo Sol tornam-se visíveis para nós.</p>
-        <p>Este ciclo completo, chamado de <strong>Mês Sinódico</strong>, dura aproximadamente 29,5 dias.</p>
-    </section>
-
-    <footer id="contato">
-        <p>&copy; 2026 Selene Project - Astronomia para todos.</p>
+    <footer>
+        <p>&copy; 2026 Observatório Selene. Explore o cosmos.</p>
     </footer>
+
+    <script>
+        function searchEvent() {
+            let input = document.getElementById('search-input').value.toLowerCase();
+            let cards = document.getElementsByClassName('card');
+            
+            for (let i = 0; i < cards.length; i++) {
+                let title = cards[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
+                let desc = cards[i].getElementsByTagName('p')[0].innerText.toLowerCase();
+                
+                if (title.includes(input) || desc.includes(input)) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+    </script>
 
 </body>
 </html>
