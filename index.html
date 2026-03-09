@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUNA 2026 | Observatório Digital</title>
+    <title>LUNA 2026 | Observatório e Eventos</title>
     <style>
         :root {
             --accent: #00d4ff;
@@ -12,9 +12,9 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: var(--bg) url('https://www.transparenttextures.com/patterns/stardust.png') fixed; color: white; line-height: 1.6; }
+        body { background: var(--bg) url('https://www.transparenttextures.com/patterns/stardust.png') fixed; color: white; line-height: 1.6; overflow-x: hidden; }
 
-        /* --- SEÇÃO 1: MENU E NAVEGAÇÃO --- */
+        /* --- SEÇÃO 1: MENU (COMO SOLICITADO) --- */
         nav {
             position: fixed; top: 0; width: 100%; background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(15px); padding: 15px 5%; display: flex;
@@ -28,49 +28,49 @@
         .search-container { flex: 2; display: flex; justify-content: center; }
         #searchInput {
             width: 100%; max-width: 400px; padding: 8px 20px; border-radius: 20px;
-            border: 1px solid var(--glass); background: rgba(255,255,255,0.05); color: white; text-align: center;
+            border: 1px solid var(--glass); background: rgba(255,255,255,0.05); color: white; text-align: center; outline: none;
         }
 
-        /* --- SEÇÃO 2: HERO (DESTAQUE LUA CHEIA) --- */
+        /* --- SEÇÃO 2: HERO E CARROSSEL --- */
         .hero {
-            height: 90vh; display: flex; align-items: center; justify-content: center;
-            padding: 0 8%; gap: 50px; background: radial-gradient(circle at 30%, rgba(0,212,255,0.08), transparent 55%);
+            height: 70vh; display: flex; align-items: center; justify-content: center;
+            padding: 120px 8% 40px; gap: 50px;
         }
-        .hero-img img { width: 400px; filter: drop-shadow(0 0 40px rgba(255,255,255,0.25)); animation: float 6s ease-in-out infinite; }
+        .hero-img img { width: 350px; filter: drop-shadow(0 0 40px rgba(255,255,255,0.2)); }
         .hero-content { 
-            max-width: 350px; background: var(--glass); padding: 25px; border-radius: 20px; 
+            max-width: 300px; background: var(--glass); padding: 20px; border-radius: 15px; 
             border: 1px solid rgba(255,255,255,0.05); margin-left: auto; text-align: right; 
         }
-        .hero-content h1 { color: var(--accent); font-size: 2.5rem; margin-bottom: 10px; }
 
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-
-        /* --- SEÇÃO 3: GALERIA DE EVENTOS --- */
-        .container { max-width: 1200px; margin: 40px auto; padding: 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
-        
-        .card { 
-            background: var(--glass); border-radius: 15px; overflow: hidden; 
-            border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; 
+        /* Carrossel */
+        .carousel-container {
+            width: 100%; max-width: 1000px; margin: 20px auto; overflow: hidden;
+            position: relative; border-radius: 20px; border: 1px solid var(--glass);
         }
-        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
-        .card img { width: 100%; height: 200px; object-fit: cover; }
+        .carousel-slide { display: flex; transition: transform 0.5s ease-in-out; }
+        .carousel-item { min-width: 100%; position: relative; height: 400px; }
+        .carousel-item img { width: 100%; height: 100%; object-fit: cover; }
+        .carousel-caption {
+            position: absolute; bottom: 0; background: rgba(0,0,0,0.7);
+            width: 100%; padding: 15px; text-align: center; font-size: 0.9rem;
+        }
+
+        /* --- SEÇÃO 3: EVENTOS --- */
+        .container { max-width: 1200px; margin: 60px auto; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        
+        .card { background: var(--glass); border-radius: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
         .card-body { padding: 20px; }
-        .card-body h3 { color: var(--accent); font-size: 1.1rem; margin-bottom: 8px; }
-        .date-tag { font-size: 0.8rem; color: #888; display: block; margin-bottom: 10px; }
-        
-        .why-it-happens { 
-            margin-top: 15px; padding: 12px; background: rgba(0,212,255,0.05); 
-            border-radius: 8px; font-size: 0.85rem; border-left: 3px solid var(--accent);
-        }
-        .img-footer { font-size: 0.7rem; color: #555; margin-top: 8px; text-align: right; font-style: italic; }
+        .card-body h3 { color: var(--accent); margin-bottom: 10px; font-size: 1.2rem; }
+        .date-tag { font-size: 0.8rem; color: var(--accent); font-weight: bold; }
+        .why-box { margin-top: 15px; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 8px; font-size: 0.85rem; }
 
-        footer { text-align: center; padding: 40px; border-top: 1px solid var(--glass); opacity: 0.7; font-size: 0.9rem; }
+        footer { text-align: center; padding: 40px; border-top: 1px solid var(--glass); margin-top: 50px; }
 
-        @media (max-width: 850px) {
+        @media (max-width: 768px) {
             nav { flex-direction: column; height: auto; padding: 15px; }
-            .hero { flex-direction: column; text-align: center; padding-top: 180px; height: auto; }
-            .hero-content { text-align: center; margin: 20px 0; }
+            .hero { flex-direction: column; text-align: center; height: auto; }
+            .hero-content { text-align: center; margin: 0; }
         }
     </style>
 </head>
@@ -79,7 +79,7 @@
     <nav>
         <div class="nav-links"><a href="#home">Home</a></div>
         <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Pesquisar (ex: Supermoon, Jupiter, March)..." onkeyup="filter()">
+            <input type="text" id="searchInput" placeholder="Pesquisar Luas, Eclipses ou Planetas..." onkeyup="filter()">
         </div>
         <div class="nav-links right"><a href="#eventos">Luas</a></div>
     </nav>
@@ -89,75 +89,93 @@
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/600px-FullMoon2010.jpg" alt="Lua Cheia">
         </div>
         <div class="hero-content">
-            <h1>LUA CHEIA</h1>
-            <p>Em 2026, a Lua Cheia atingirá seu brilho máximo em 12 ciclos, incluindo 3 superluas consecutivas no final do ano. Este fenômeno ocorre quando a Lua está 180° oposta ao Sol.</p>
+            <h2 style="color: var(--accent);">Lua Cheia</h2>
+            <p style="font-size: 0.9rem;">O momento em que a face visível da Lua está 100% iluminada pelo Sol, revelando detalhes de crateras e mares lunares.</p>
         </div>
     </header>
 
+    <div class="carousel-container">
+        <div class="carousel-slide" id="slide">
+            <div class="carousel-item">
+                <img src="https://images.unsplash.com/photo-1532693322450-2cb5c511067d?auto=format&fit=crop&w=1200&q=80" alt="Lua de Sangue">
+                <div class="carousel-caption">Eclipse Lunar Total: A famosa Lua de Sangue.</div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://images.unsplash.com/photo-1506318129727-63d056162b83?auto=format&fit=crop&w=1200&q=80" alt="Lua Nova">
+                <div class="carousel-caption">Lua Nova: O céu perfeito para observação estelar.</div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1200&q=80" alt="Eclipse Solar">
+                <div class="carousel-caption">Eclipse Solar: O momento da Totalidade.</div>
+            </div>
+        </div>
+    </div>
+
     <main class="container" id="eventos">
+        <h2 style="text-align: center; margin-bottom: 40px; letter-spacing: 2px;">CALENDÁRIO ASTRONÔMICO 2026</h2>
         <div class="grid" id="eventGrid">
             
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1505506005814-ba4962922f9e?auto=format&fit=crop&w=500&q=80">
                 <div class="card-body">
-                    <span class="date-tag">JAN 3, 2026 - 10:04 UTC</span>
-                    <h3>Full Moon (Wolf Moon) & Supermoon</h3>
-                    <p>Primeira de três superluas de 2026. Conhecida como Lua do Lobo pelos uivos de inverno.</p>
-                    <div class="why-it-happens">
-                        <strong>Por que acontece:</strong> A Lua está em seu perigeu, o ponto mais próximo da Terra, parecendo maior e mais brilhante.
+                    <span class="date-tag">3 DE JANEIRO</span>
+                    <h3>Full Moon & Supermoon</h3>
+                    <p>Conhecida como Wolf Moon (Lua do Lobo). É a primeira de três superluas de 2026.</p>
+                    <div class="why-box">
+                        <strong>Por que acontece:</strong> A Lua está próxima do Perigeu, parecendo maior e mais brilhante que o normal.
                     </div>
-                    <p class="img-footer">Imagem: Superlua no Perigeu</p>
                 </div>
             </div>
 
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1543722530-d2c32013a1e6?auto=format&fit=crop&w=500&q=80">
                 <div class="card-body">
-                    <span class="date-tag">JAN 3-4, 2026</span>
+                    <span class="date-tag">3-4 DE JANEIRO</span>
                     <h3>Quadrantids Meteor Shower</h3>
-                    <p>Pico de até 40 meteoros por hora. Infelizmente, a Lua Cheia pode ofuscar os rastros mais fracos.</p>
-                    <div class="why-it-happens">
-                        <strong>Por que acontece:</strong> Grãos de poeira do cometa extinto 2003 EH1 entram na atmosfera terrestre.
+                    <p>Pico de até 40 meteoros por hora produzidos pelo cometa extinto 2003 EH1.</p>
+                    <div class="why-box">
+                        <strong>Por que acontece:</strong> A Terra atravessa detritos espaciais que queimam ao entrar em nossa atmosfera.
                     </div>
-                    <p class="img-footer">Imagem: Rastro de Meteoros</p>
                 </div>
             </div>
 
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1532693322450-2cb5c511067d?auto=format&fit=crop&w=500&q=80">
                 <div class="card-body">
-                    <span class="date-tag">MAR 3, 2026</span>
+                    <span class="date-tag">3 DE MARÇO</span>
                     <h3>Total Lunar Eclipse</h3>
-                    <p>A Lua passa pela umbra da Terra, ganhando uma cor vermelho-ferrugem. Visível na Ásia, Austrália e América do Norte.</p>
-                    <div class="why-it-happens">
-                        <strong>Por que acontece:</strong> Alinhamento perfeito onde a Terra bloqueia a luz solar direta para a Lua.
+                    <p>A Lua passa completamente pela sombra escura da Terra (Umbra), ficando avermelhada.</p>
+                    <div class="why-box">
+                        <strong>Por que acontece:</strong> Alinhamento Sol-Terra-Lua onde a atmosfera terrestre filtra a luz azul e projeta a vermelha na Lua.
                     </div>
-                    <p class="img-footer">Imagem: Lua de Sangue Total</p>
                 </div>
             </div>
 
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1506318129727-63d056162b83?auto=format&fit=crop&w=500&q=80">
                 <div class="card-body">
-                    <span class="date-tag">DEC 1, 2026 - 06:22 UTC</span>
-                    <h3>New Moon (Lua Nova)</h3>
-                    <p>Melhor época para observar galáxias e aglomerados estelares sem interferência da luz lunar.</p>
-                    <div class="why-it-happens">
-                        <strong>Por que acontece:</strong> A Lua está entre a Terra e o Sol, mostrando sua face escura para nós.
+                    <span class="date-tag">12 DE AGOSTO</span>
+                    <h3>Total Solar Eclipse</h3>
+                    <p>A Lua bloqueia completamente o Sol. Visível na Espanha, Islândia e Groenlândia.</p>
+                    <div class="why-box">
+                        <strong>Por que acontece:</strong> A Lua Nova se posiciona exatamente entre a Terra e o Sol.
                     </div>
-                    <p class="img-footer">Imagem: Céu Profundo sem Lua</p>
                 </div>
             </div>
 
-            </div>
+        </div>
     </main>
 
     <footer>
-        <p>&copy; 2026 Guia Estelar Selene. Dados astronômicos via NASA/UTC.</p>
-        <p>Desenvolvido para entusiastas do céu noturno.</p>
+        <p>&copy; 2026 Selene Digital - Dados baseados na NASA e UTC</p>
     </footer>
 
     <script>
+        // Lógica do Carrossel Automático
+        const slide = document.getElementById('slide');
+        let index = 0;
+        setInterval(() => {
+            index = (index + 1) % 3;
+            slide.style.transform = `translateX(-${index * 100}%)`;
+        }, 4000);
+
+        // Lógica de Pesquisa
         function filter() {
             let input = document.getElementById('searchInput').value.toLowerCase();
             let cards = document.getElementsByClassName('card');
