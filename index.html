@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selene - Explorando a Lua</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #050505 url('https://www.transparenttextures.com/patterns/stardust.png');
+            color: white;
+            scroll-behavior: smooth;
+        }
+
+        /* Menu de Navegação */
+        nav {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 1px solid #333;
+        }
+
+        nav a { color: white; text-decoration: none; font-weight: bold; }
+
+        /* Banner Principal */
+        header {
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000 70%);
+        }
+
+        /* Seção de Pesquisa */
+        .search-container { margin: 20px; }
+        input { padding: 10px; border-radius: 20px; border: none; width: 300px; }
+
+        /* Seções de Conteúdo */
+        section { padding: 80px 20px; max-width: 1000px; margin: auto; }
+
+        .moon-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .moon-img { width: 100px; height: 100px; border-radius: 50%; background: #ccc; }
+
+        footer {
+            background: #111;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #333;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#fases">Fases</a>
+        <a href="#eventos">Eventos 2026</a>
+        <a href="#explicacao">Por que acontece?</a>
+    </nav>
+
+    <header id="home">
+        <h1>O MISTÉRIO DA LUA</h1>
+        <p>Explore as fases e os segredos do nosso satélite natural.</p>
+        <div class="search-container">
+            <input type="text" placeholder="Pesquisar fase ou evento...">
+        </div>
+    </header>
+
+    <section id="fases">
+        <h2>Fases da Lua</h2>
+        <div class="moon-card">
+            <div class="moon-img" style="background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/100px-FullMoon2010.jpg'); background-size: cover;"></div>
+            <div>
+                <h3>Lua Cheia</h3>
+                <p>Ocorre quando a Terra está entre o Sol e a Lua. É o ápice da iluminação.</p>
+            </div>
+        </div>
+        </section>
+
+    <section id="explicacao">
+        <h2>Por que as fases acontecem?</h2>
+        <p>As fases da Lua são causadas pela sua **órbita em torno da Terra**. Conforme ela se move, diferentes porções da sua face iluminada pelo Sol tornam-se visíveis para nós.</p>
+        <p>Este ciclo completo, chamado de <strong>Mês Sinódico</strong>, dura aproximadamente 29,5 dias.</p>
+    </section>
+
+    <footer id="contato">
+        <p>&copy; 2026 Selene Project - Astronomia para todos.</p>
+    </footer>
+
+</body>
+</html>
