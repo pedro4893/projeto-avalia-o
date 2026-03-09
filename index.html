@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUNA 2026 - Galeria Interativa</title>
+    <title>Observatório Luna 2026</title>
     <style>
         :root {
             --accent: #00d4ff;
@@ -12,7 +12,12 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: var(--bg) url('https://www.transparenttextures.com/patterns/stardust.png') fixed; color: white; scroll-behavior: smooth; }
+        
+        body { 
+            background: var(--bg) url('https://www.transparenttextures.com/patterns/stardust.png') fixed; 
+            color: white; 
+            overflow-x: hidden;
+        }
 
         /* --- SEÇÃO 1: MENU --- */
         nav {
@@ -31,161 +36,187 @@
             border: 1px solid var(--glass); background: rgba(255,255,255,0.05); color: white; text-align: center; outline: none;
         }
 
-        /* --- SEÇÃO 2: CARROSSEL DE ESCOLHA --- */
-        .hero-carousel {
-            padding: 120px 5% 40px; text-align: center;
-            background: radial-gradient(circle at 50% 30%, rgba(0,212,255,0.1), transparent 60%);
-        }
-        .carousel-track {
-            display: flex; gap: 20px; overflow-x: auto; padding: 20px;
-            scrollbar-width: thin; scrollbar-color: var(--accent) transparent;
-        }
-        .moon-option {
-            min-width: 150px; cursor: pointer; transition: 0.4s;
-            opacity: 0.6; filter: grayscale(1);
-        }
-        .moon-option:hover, .moon-option.active { opacity: 1; filter: grayscale(0); transform: scale(1.1); }
-        .moon-option img { width: 120px; height: 120px; border-radius: 50%; border: 2px solid transparent; }
-        .moon-option.active img { border-color: var(--accent); box-shadow: 0 0 20px var(--accent); }
-        .moon-option p { margin-top: 10px; font-size: 0.8rem; font-weight: bold; }
-
-        /* --- SEÇÃO 3: INFORMAÇÕES DA LUA SELECIONADA --- */
-        .display-area {
-            max-width: 1100px; margin: 20px auto 80px; display: flex;
-            align-items: center; gap: 50px; background: var(--glass);
-            padding: 40px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.05);
-        }
-        .display-img img { width: 350px; filter: drop-shadow(0 0 40px rgba(255,255,255,0.2)); }
-        .display-text { flex: 1; text-align: right; }
-        .display-text h2 { color: var(--accent); font-size: 2.5rem; margin-bottom: 15px; }
-        .display-text .why-box {
-            background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px;
-            border-right: 4px solid var(--accent); margin-top: 20px; font-size: 0.95rem;
+        /* --- SEÇÃO 2: DESTAQUE PRINCIPAL --- */
+        .hero-section {
+            padding: 140px 8% 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 70vh;
         }
 
-        footer { text-align: center; padding: 40px; border-top: 1px solid var(--glass); opacity: 0.6; }
+        .main-moon-display { flex: 1; display: flex; justify-content: center; position: relative; }
+        .main-moon-display img { 
+            width: 400px; 
+            filter: drop-shadow(0 0 50px rgba(255,255,255,0.2));
+            transition: transform 0.5s ease;
+        }
 
-        @media (max-width: 768px) {
-            .display-area { flex-direction: column; text-align: center; }
-            .display-text { text-align: center; }
-            .display-img img { width: 250px; }
+        .moon-details { 
+            flex: 1; 
+            max-width: 450px; 
+            text-align: right; 
+            background: var(--glass);
+            padding: 30px;
+            border-radius: 20px;
+            border-right: 5px solid var(--accent);
+        }
+        .moon-details h2 { color: var(--accent); font-size: 2.5rem; margin-bottom: 15px; }
+        .moon-details p { font-size: 1rem; color: #ccc; margin-bottom: 15px; }
+
+        /* --- SEÇÃO 3: CARROSSEL COM SCROLLBAR --- */
+        .carousel-wrapper {
+            max-width: 1200px;
+            margin: 40px auto 100px;
+            padding: 0 20px;
+        }
+        
+        .carousel-title { text-align: center; margin-bottom: 20px; font-size: 0.9rem; letter-spacing: 3px; color: var(--accent); }
+
+        .moon-track {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px 0;
+            scroll-behavior: smooth;
+        }
+
+        /* Barra de Rolagem Estilizada */
+        .moon-track::-webkit-scrollbar { height: 8px; }
+        .moon-track::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
+        .moon-track::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+
+        .moon-card {
+            min-width: 160px;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.3s;
+            background: rgba(255,255,255,0.03);
+            padding: 15px;
+            border-radius: 15px;
+        }
+        .moon-card:hover { background: var(--glass); transform: translateY(-5px); }
+        .moon-card img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; }
+        .moon-card h4 { font-size: 0.8rem; text-transform: uppercase; }
+
+        footer { text-align: center; padding: 40px; border-top: 1px solid var(--glass); opacity: 0.5; }
+
+        @media (max-width: 900px) {
+            .hero-section { flex-direction: column; text-align: center; }
+            .moon-details { text-align: center; border-right: none; border-bottom: 5px solid var(--accent); margin-top: 30px; }
+            .main-moon-display img { width: 250px; }
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="nav-links"><a href="#home">Home</a></div>
+        <div class="nav-links"><a href="#">Home</a></div>
         <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Pesquisar por nome ou mês..." onkeyup="searchMoons()">
+            <input type="text" id="searchInput" placeholder="Pesquisar evento..." onkeyup="filterMoons()">
         </div>
-        <div class="nav-links right"><a href="#luas">Luas</a></div>
+        <div class="nav-links right"><a href="#galeria">Luas</a></div>
     </nav>
 
-    <header class="hero-carousel" id="home">
-        <h2 style="margin-bottom: 30px; letter-spacing: 3px;">ESCOLHA UMA LUA PARA EXPLORAR</h2>
-        <div class="carousel-track" id="moonTrack">
+    <section class="hero-section">
+        <div class="main-moon-display">
+            <img id="activeMoonImg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/600px-FullMoon2010.jpg" alt="Lua Ativa">
+        </div>
+        <div class="moon-details">
+            <h2 id="moonTitle">Lua Cheia</h2>
+            <p id="moonDesc">Fase em que a Lua se encontra em oposição ao Sol em relação à Terra, refletindo a luz solar em toda a sua face visível.</p>
+            <div style="font-size: 0.85rem; color: var(--accent);" id="moonTechnical">
+                <strong>Por que acontece:</strong> Alinhamento orbital Sizígia (Sol-Terra-Lua).
             </div>
-    </header>
+        </div>
+    </section>
 
-    <main class="container">
-        <section class="display-area" id="displayArea">
-            <div class="display-img">
-                <img id="mainMoonImg" src="" alt="">
+    <div class="carousel-wrapper" id="galeria">
+        <h3 class="carousel-title">SELECIONE UM EVENTO LUNAR DE 2026</h3>
+        <div class="moon-track" id="moonTrack">
             </div>
-            <div class="display-text" id="mainMoonContent">
-                <h2 id="moonTitle">Carregando...</h2>
-                <p id="moonDesc"></p>
-                <div class="why-box" id="moonWhy"></div>
-            </div>
-        </section>
-    </main>
+    </div>
 
     <footer>
-        <p>&copy; 2026 Selene Interactive - Dados Astronômicos em Tempo Real</p>
+        <p>&copy; 2026 Selene Digital | Dados: NASA Science</p>
     </footer>
 
     <script>
-        const moonData = [
+        const events = [
             {
-                id: "wolf",
-                title: "Wolf Moon (Janeiro)",
-                date: "03 de Janeiro, 2026",
-                desc: "A primeira Superlua do ano. Recebe este nome pois os lobos uivavam de fome nas noites frias de inverno perto dos assentamentos humanos.",
-                why: "Por que acontece: Ocorre quando a Lua atinge o Perigeu (maior proximidade com a Terra) durante a fase cheia, resultando em um brilho 30% maior.",
-                img: "https://images.unsplash.com/photo-1534141662524-78d103831897?auto=format&fit=crop&w=600&q=80"
+                name: "Lua do Lobo",
+                date: "03 de Janeiro",
+                desc: "A primeira Superlua de 2026. Recebe este nome pelos lobos uivando nas noites frias de inverno.",
+                why: "Acontece devido ao Perigeu lunar (maior proximidade com a Terra) coincidindo com a fase cheia.",
+                img: "https://images.unsplash.com/photo-1534141662524-78d103831897?auto=format&fit=crop&w=300&q=80"
             },
             {
-                id: "blood",
-                title: "Blood Moon (Março)",
-                date: "03 de Março, 2026",
-                desc: "Um Eclipse Lunar Total que transforma o satélite em uma esfera de cor ferrugem ou vermelho escuro.",
-                why: "Por que acontece: A luz solar é refratada pela atmosfera da Terra, que filtra as cores frias e projeta o espectro vermelho sobre a Lua.",
-                img: "https://images.unsplash.com/photo-1532693322450-2cb5c511067d?auto=format&fit=crop&w=600&q=80"
+                name: "Lua de Sangue",
+                date: "03 de Março",
+                desc: "Um Eclipse Lunar Total que deixa a lua com tons de vermelho escuro e laranja.",
+                why: "A luz solar é filtrada pela atmosfera da Terra, projetando apenas as ondas vermelhas na superfície lunar.",
+                img: "https://images.unsplash.com/photo-1532693322450-2cb5c511067d?auto=format&fit=crop&w=300&q=80"
             },
             {
-                id: "snow",
-                title: "Snow Moon (Fevereiro)",
-                date: "01 de Fevereiro, 2026",
-                desc: "Conhecida pelas tribos americanas pelas tempestades de neve pesadas que dificultavam a caça neste período.",
-                why: "Por que acontece: É a fase cheia que marca o pico do inverno no hemisfério norte.",
-                img: "https://images.unsplash.com/photo-1504333638930-c8787321eee0?auto=format&fit=crop&w=600&q=80"
+                name: "Lua de Neve",
+                date: "01 de Fevereiro",
+                desc: "Lua cheia de fevereiro, época das maiores nevascas no hemisfério norte.",
+                why: "Fenômeno sazonal cultural baseado no calendário das tribos nativas americanas.",
+                img: "https://images.unsplash.com/photo-1504333638930-c8787321eee0?auto=format&fit=crop&w=300&q=80"
             },
             {
-                id: "pink",
-                title: "Pink Moon (Abril)",
-                date: "02 de Abril, 2026",
-                desc: "A Lua de Abril simboliza o renascimento e o desabrochar das flores Phlox subulata.",
-                why: "Por que acontece: Alinhamento sazonal que marca o início oficial da primavera boreal.",
-                img: "https://images.unsplash.com/photo-1515260268569-9271009adfdb?auto=format&fit=crop&w=600&q=80"
+                name: "Lua Rosa",
+                date: "02 de Abril",
+                desc: "Marca o início da primavera e o desabrochar das flores Phlox de cor rosada.",
+                why: "É a lua cheia que determina a data da Páscoa cristã (primeiro domingo após sua ocorrência).",
+                img: "https://images.unsplash.com/photo-1515260268569-9271009adfdb?auto=format&fit=crop&w=300&q=80"
             },
             {
-                id: "harvest",
-                title: "Harvest Moon (Setembro)",
-                date: "26 de Setembro, 2026",
-                desc: "A Lua mais próxima do equinócio de outono, essencial para as colheitas antigas devido ao seu brilho prolongado.",
-                why: "Por que acontece: O ângulo da órbita lunar faz com que ela nasça quase no mesmo horário por várias noites seguidas.",
-                img: "https://images.unsplash.com/photo-1506318129727-63d056162b83?auto=format&fit=crop&w=600&q=80"
+                name: "Lua da Colheita",
+                date: "26 de Setembro",
+                desc: "A lua que nasce mais próxima do equinócio de outono, brilhando intensamente.",
+                why: "O ângulo da órbita lunar permite que ela nasça quase no mesmo horário por várias noites seguidas.",
+                img: "https://images.unsplash.com/photo-1506318129727-63d056162b83?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                name: "Lua Fria",
+                date: "23 de Dezembro",
+                desc: "A última Superlua de 2026, ocorrendo no auge do inverno boreal.",
+                why: "Ocorre durante o solstício, quando as noites são mais longas e a lua cruza o céu em uma trajetória alta.",
+                img: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=300&q=80"
             }
         ];
 
         const track = document.getElementById('moonTrack');
 
-        function initCarousel() {
-            moonData.forEach((moon, index) => {
-                const div = document.createElement('div');
-                div.className = `moon-option ${index === 0 ? 'active' : ''}`;
-                div.innerHTML = `<img src="${moon.img}"><p>${moon.title.split(' ')[0]}</p>`;
-                div.onclick = () => updateDisplay(index);
-                track.appendChild(div);
-            });
-            updateDisplay(0);
+        // Inicializa o carrossel
+        events.forEach(event => {
+            const card = document.createElement('div');
+            card.className = 'moon-card';
+            card.innerHTML = `
+                <img src="${event.img}" alt="${event.name}">
+                <h4>${event.name}</h4>
+                <small style="color: #666">${event.date}</small>
+            `;
+            card.onclick = () => {
+                document.getElementById('activeMoonImg').src = event.img;
+                document.getElementById('moonTitle').innerText = event.name;
+                document.getElementById('moonDesc').innerText = event.desc;
+                document.getElementById('moonTechnical').innerHTML = `<strong>Por que acontece:</strong> ${event.why}`;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+            track.appendChild(card);
+        });
+
+        // Filtro de Pesquisa
+        function filterMoons() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.getElementsByClassName('moon-card');
+            for (let i = 0; i < cards.length; i++) {
+                const title = cards[i].getElementsByTagName('h4')[0].innerText.toLowerCase();
+                cards[i].style.display = title.includes(input) ? "block" : "none";
+            }
         }
-
-        function updateDisplay(index) {
-            const moon = moonData[index];
-            document.getElementById('mainMoonImg').src = moon.img;
-            document.getElementById('moonTitle').innerText = moon.title;
-            document.getElementById('moonDesc').innerText = `${moon.date} - ${moon.desc}`;
-            document.getElementById('moonWhy').innerText = moon.why;
-
-            // Update active state
-            const options = document.querySelectorAll('.moon-option');
-            options.forEach((opt, i) => {
-                opt.classList.toggle('active', i === index);
-            });
-        }
-
-        function searchMoons() {
-            let term = document.getElementById('searchInput').value.toLowerCase();
-            const options = document.querySelectorAll('.moon-option');
-            moonData.forEach((moon, i) => {
-                const visible = moon.title.toLowerCase().includes(term) || moon.desc.toLowerCase().includes(term);
-                options[i].style.display = visible ? "block" : "none";
-            });
-        }
-
-        initCarousel();
     </script>
 </body>
 </html>
