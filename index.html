@@ -3,141 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUNA 2026 - Guia Astronômico</title>
+    <title>LUNA 2026 | Observatório Digital</title>
     <style>
         :root {
             --accent: #00d4ff;
             --glass: rgba(255, 255, 255, 0.1);
-            --text: #f0f0f0;
+            --bg: #020205;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--bg) url('https://www.transparenttextures.com/patterns/stardust.png') fixed; color: white; line-height: 1.6; }
 
-        body {
-            background: #020205 url('https://www.transparenttextures.com/patterns/stardust.png') fixed;
-            color: var(--text);
-            line-height: 1.6;
-        }
-
-        /* Menu de Navegação */
+        /* --- SEÇÃO 1: MENU E NAVEGAÇÃO --- */
         nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(15px);
-            padding: 15px 5%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 1000;
-            border-bottom: 1px solid var(--glass);
+            position: fixed; top: 0; width: 100%; background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px); padding: 15px 5%; display: flex;
+            align-items: center; justify-content: space-between; z-index: 1000; border-bottom: 1px solid var(--glass);
         }
-
-        .nav-links { display: flex; gap: 30px; flex: 1; }
+        .nav-links { flex: 1; display: flex; gap: 20px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
         .nav-links.right { justify-content: flex-end; }
-        
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: 0.3s;
-        }
-
+        nav a { color: white; text-decoration: none; font-weight: bold; transition: 0.3s; }
         nav a:hover { color: var(--accent); }
 
-        .search-box { flex: 2; display: flex; justify-content: center; }
+        .search-container { flex: 2; display: flex; justify-content: center; }
         #searchInput {
-            width: 100%;
-            max-width: 400px;
-            padding: 10px 20px;
-            border-radius: 20px;
-            border: 1px solid var(--glass);
-            background: rgba(255,255,255,0.05);
-            color: white;
-            outline: none;
-            text-align: center;
+            width: 100%; max-width: 400px; padding: 8px 20px; border-radius: 20px;
+            border: 1px solid var(--glass); background: rgba(255,255,255,0.05); color: white; text-align: center;
         }
 
-        /* Hero Section */
+        /* --- SEÇÃO 2: HERO (DESTAQUE LUA CHEIA) --- */
         .hero {
-            height: 80vh;
-            padding: 100px 8%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: radial-gradient(circle at 20%, rgba(0, 212, 255, 0.1), transparent 50%);
+            height: 90vh; display: flex; align-items: center; justify-content: center;
+            padding: 0 8%; gap: 50px; background: radial-gradient(circle at 30%, rgba(0,212,255,0.08), transparent 55%);
         }
-
-        .hero-img { flex: 1.5; display: flex; justify-content: center; }
-        .hero-img img { 
-            width: 80%; 
-            max-width: 450px; 
-            filter: drop-shadow(0 0 30px rgba(255,255,255,0.2));
-            animation: float 6s ease-in-out infinite;
-        }
-
+        .hero-img img { width: 400px; filter: drop-shadow(0 0 40px rgba(255,255,255,0.25)); animation: float 6s ease-in-out infinite; }
         .hero-content { 
-            flex: 1; 
-            background: var(--glass); 
-            padding: 30px; 
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.05);
-            max-width: 400px; /* Descrição menor conforme pedido */
+            max-width: 350px; background: var(--glass); padding: 25px; border-radius: 20px; 
+            border: 1px solid rgba(255,255,255,0.05); margin-left: auto; text-align: right; 
         }
+        .hero-content h1 { color: var(--accent); font-size: 2.5rem; margin-bottom: 10px; }
 
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
-        /* Container de Eventos */
-        .container { max-width: 1200px; margin: 50px auto; padding: 20px; }
+        /* --- SEÇÃO 3: GALERIA DE EVENTOS --- */
+        .container { max-width: 1200px; margin: 40px auto; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
         
-        .event-card {
-            background: var(--glass);
-            border-radius: 15px;
-            margin-bottom: 40px;
-            display: flex;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: 0.3s;
+        .card { 
+            background: var(--glass); border-radius: 15px; overflow: hidden; 
+            border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; 
         }
-
-        .event-card:hover { transform: scale(1.01); border-color: var(--accent); }
-        .event-image-side { width: 350px; position: relative; }
-        .event-image-side img { width: 100%; height: 100%; object-fit: cover; }
+        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .card img { width: 100%; height: 200px; object-fit: cover; }
+        .card-body { padding: 20px; }
+        .card-body h3 { color: var(--accent); font-size: 1.1rem; margin-bottom: 8px; }
+        .date-tag { font-size: 0.8rem; color: #888; display: block; margin-bottom: 10px; }
         
-        .img-footer {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            background: rgba(0,0,0,0.7);
-            font-size: 0.7rem;
-            padding: 5px 10px;
-            color: #ccc;
+        .why-it-happens { 
+            margin-top: 15px; padding: 12px; background: rgba(0,212,255,0.05); 
+            border-radius: 8px; font-size: 0.85rem; border-left: 3px solid var(--accent);
         }
+        .img-footer { font-size: 0.7rem; color: #555; margin-top: 8px; text-align: right; font-style: italic; }
 
-        .event-info { padding: 30px; flex: 1; }
-        .event-info h3 { color: var(--accent); margin-bottom: 10px; border-bottom: 1px solid var(--glass); padding-bottom: 5px; }
-        .event-info .date { font-weight: bold; color: #aaa; display: block; margin-bottom: 10px; }
-        
-        .why-box {
-            margin-top: 15px;
-            padding: 15px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 10px;
-            font-size: 0.9rem;
-            color: #bdc3c7;
-        }
+        footer { text-align: center; padding: 40px; border-top: 1px solid var(--glass); opacity: 0.7; font-size: 0.9rem; }
 
-        footer { text-align: center; padding: 60px; background: rgba(0,0,0,0.8); border-top: 1px solid var(--glass); }
-
-        @media (max-width: 900px) {
-            nav { flex-direction: column; gap: 10px; height: auto; padding: 20px; }
-            .hero { flex-direction: column; text-align: center; height: auto; padding-top: 180px; }
-            .event-card { flex-direction: column; }
-            .event-image-side { width: 100%; height: 200px; }
+        @media (max-width: 850px) {
+            nav { flex-direction: column; height: auto; padding: 15px; }
+            .hero { flex-direction: column; text-align: center; padding-top: 180px; height: auto; }
+            .hero-content { text-align: center; margin: 20px 0; }
         }
     </style>
 </head>
@@ -145,10 +78,10 @@
 
     <nav>
         <div class="nav-links"><a href="#home">Home</a></div>
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Pesquisar Luas, Chuvas ou Planetas..." onkeyup="filter()">
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Pesquisar (ex: Supermoon, Jupiter, March)..." onkeyup="filter()">
         </div>
-        <div class="nav-links right"><a href="#luas">Luas</a></div>
+        <div class="nav-links right"><a href="#eventos">Luas</a></div>
     </nav>
 
     <header class="hero" id="home">
@@ -156,106 +89,81 @@
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/600px-FullMoon2010.jpg" alt="Lua Cheia">
         </div>
         <div class="hero-content">
-            <h2 style="color: var(--accent); margin-bottom: 10px;">A Lua Cheia</h2>
-            <p>Quando a Lua está oposta ao Sol, sua face visível é totalmente iluminada. Este ciclo de 29.5 dias governa as marés e fascina a humanidade há milênios. Em 2026, teremos três Superluas espetaculares.</p>
+            <h1>LUA CHEIA</h1>
+            <p>Em 2026, a Lua Cheia atingirá seu brilho máximo em 12 ciclos, incluindo 3 superluas consecutivas no final do ano. Este fenômeno ocorre quando a Lua está 180° oposta ao Sol.</p>
         </div>
     </header>
 
-    <div class="container" id="luas">
-        <h2 style="text-align: center; margin-bottom: 50px; font-size: 2rem;">EVENTOS ASTRONÔMICOS 2026</h2>
-        
-        <div id="eventList">
-            <div class="event-card">
-                <div class="event-image-side">
-                    <img src="https://images.unsplash.com/photo-1494515426402-f1980ca7a41d?auto=format&fit=crop&w=600&q=80">
-                    <div class="img-footer">Ilustração: Lua Cheia do Lobo em Janeiro</div>
-                </div>
-                <div class="event-info">
-                    <span class="date">03 de Janeiro, 2026</span>
-                    <h3>Lua Cheia do Lobo (Superlua)</h3>
-                    <p>Conhecida pelas tribos nativas americanas porque os lobos uivavam de fome fora de seus acampamentos nesta época de frio intenso. É a primeira de três superluas do ano.</p>
-                    <div class="why-box">
-                        <strong>Por que acontece:</strong> Ocorre quando a fase cheia coincide com o perigeu (maior proximidade com a Terra), fazendo-a parecer 14% maior e 30% mais brilhante.
+    <main class="container" id="eventos">
+        <div class="grid" id="eventGrid">
+            
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1505506005814-ba4962922f9e?auto=format&fit=crop&w=500&q=80">
+                <div class="card-body">
+                    <span class="date-tag">JAN 3, 2026 - 10:04 UTC</span>
+                    <h3>Full Moon (Wolf Moon) & Supermoon</h3>
+                    <p>Primeira de três superluas de 2026. Conhecida como Lua do Lobo pelos uivos de inverno.</p>
+                    <div class="why-it-happens">
+                        <strong>Por que acontece:</strong> A Lua está em seu perigeu, o ponto mais próximo da Terra, parecendo maior e mais brilhante.
                     </div>
+                    <p class="img-footer">Imagem: Superlua no Perigeu</p>
                 </div>
             </div>
 
-            <div class="event-card">
-                <div class="event-image-side">
-                    <img src="https://images.unsplash.com/photo-1543722530-d2c32013a1e6?auto=format&fit=crop&w=600&q=80">
-                    <div class="img-footer">Chuva de meteoros Quadrântidas</div>
-                </div>
-                <div class="event-info">
-                    <span class="date">03 e 04 de Janeiro</span>
-                    <h3>Chuva de Meteoros Quadrântidas</h3>
-                    <p>Uma das melhores chuvas de meteoros do ano, podendo atingir 40 meteoros por hora.</p>
-                    <div class="why-box">
-                        <strong>Por que acontece:</strong> A Terra cruza a trilha de detritos deixada pelo asteroide/cometa extinto 2003 EH1. Quando esses grãos de poeira entram na nossa atmosfera em alta velocidade, eles queimam e criam os rastros de luz.
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1543722530-d2c32013a1e6?auto=format&fit=crop&w=500&q=80">
+                <div class="card-body">
+                    <span class="date-tag">JAN 3-4, 2026</span>
+                    <h3>Quadrantids Meteor Shower</h3>
+                    <p>Pico de até 40 meteoros por hora. Infelizmente, a Lua Cheia pode ofuscar os rastros mais fracos.</p>
+                    <div class="why-it-happens">
+                        <strong>Por que acontece:</strong> Grãos de poeira do cometa extinto 2003 EH1 entram na atmosfera terrestre.
                     </div>
+                    <p class="img-footer">Imagem: Rastro de Meteoros</p>
                 </div>
             </div>
 
-            <div class="event-card">
-                <div class="event-image-side">
-                    <img src="https://images.unsplash.com/photo-1532693322450-2cb5c511067d?auto=format&fit=crop&w=600&q=80">
-                    <div class="img-footer">Eclipse Lunar Total - Lua de Sangue</div>
-                </div>
-                <div class="event-info">
-                    <span class="date">03 de Março, 2026</span>
-                    <h3>Eclipse Lunar Total (Lua Vermelha)</h3>
-                    <p>A Lua passará completamente pela sombra da Terra, assumindo uma tonalidade avermelhada ferrugem.</p>
-                    <div class="why-box">
-                        <strong>Por que acontece:</strong> Durante a totalidade, a atmosfera da Terra refrata a luz solar, bloqueando as cores frias e enviando apenas os comprimentos de onda vermelhos para a superfície lunar.
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1532693322450-2cb5c511067d?auto=format&fit=crop&w=500&q=80">
+                <div class="card-body">
+                    <span class="date-tag">MAR 3, 2026</span>
+                    <h3>Total Lunar Eclipse</h3>
+                    <p>A Lua passa pela umbra da Terra, ganhando uma cor vermelho-ferrugem. Visível na Ásia, Austrália e América do Norte.</p>
+                    <div class="why-it-happens">
+                        <strong>Por que acontece:</strong> Alinhamento perfeito onde a Terra bloqueia a luz solar direta para a Lua.
                     </div>
+                    <p class="img-footer">Imagem: Lua de Sangue Total</p>
                 </div>
             </div>
 
-            <div class="event-card">
-                <div class="event-image-side">
-                    <img src="https://images.unsplash.com/photo-1506466010722-395aa2bef877?auto=format&fit=crop&w=600&q=80">
-                    <div class="img-footer">Eclipse Solar Total em Agosto</div>
-                </div>
-                <div class="event-info">
-                    <span class="date">12 de Agosto, 2026</span>
-                    <h3>Eclipse Solar Total</h3>
-                    <p>A Lua bloqueará completamente o Sol, revelando a coroa solar. Visível na Espanha, Islândia e Groenlândia.</p>
-                    <div class="why-box">
-                        <strong>Por que acontece:</strong> Um alinhamento exato onde o tamanho aparente da Lua é suficiente para cobrir o disco solar devido à distância entre os astros.
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1506318129727-63d056162b83?auto=format&fit=crop&w=500&q=80">
+                <div class="card-body">
+                    <span class="date-tag">DEC 1, 2026 - 06:22 UTC</span>
+                    <h3>New Moon (Lua Nova)</h3>
+                    <p>Melhor época para observar galáxias e aglomerados estelares sem interferência da luz lunar.</p>
+                    <div class="why-it-happens">
+                        <strong>Por que acontece:</strong> A Lua está entre a Terra e o Sol, mostrando sua face escura para nós.
                     </div>
+                    <p class="img-footer">Imagem: Céu Profundo sem Lua</p>
                 </div>
             </div>
 
-            <div class="event-card">
-                <div class="event-image-side">
-                    <img src="https://images.unsplash.com/photo-1504333638930-c8787321eee0?auto=format&fit=crop&w=600&q=80">
-                    <div class="img-footer">Lua Cheia de Fevereiro</div>
-                </div>
-                <div class="event-info">
-                    <span class="date">01 de Fevereiro, 2026</span>
-                    <h3>Lua de Neve</h3>
-                    <p>Nomeada pelas tribos devido às nevascas mais pesadas do ano ocorrerem neste mês, dificultando a caça.</p>
-                    <div class="why-box">
-                        <strong>Por que acontece:</strong> É a denominação tradicional da Lua Cheia de Fevereiro, baseada em ciclos climáticos sazonais terrestres.
-                    </div>
-                </div>
             </div>
-
-        </div>
-    </div>
+    </main>
 
     <footer>
-        <p>&copy; 2026 Observatório LUNA Digital</p>
-        <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.6;">Dados baseados no Calendário Astronômico de 2026. UTC-Time.</p>
+        <p>&copy; 2026 Guia Estelar Selene. Dados astronômicos via NASA/UTC.</p>
+        <p>Desenvolvido para entusiastas do céu noturno.</p>
     </footer>
 
     <script>
         function filter() {
             let input = document.getElementById('searchInput').value.toLowerCase();
-            let cards = document.getElementsByClassName('event-card');
-            
+            let cards = document.getElementsByClassName('card');
             for (let i = 0; i < cards.length; i++) {
-                let content = cards[i].innerText.toLowerCase();
-                cards[i].style.display = content.includes(input) ? "flex" : "none";
+                let text = cards[i].innerText.toLowerCase();
+                cards[i].style.display = text.includes(input) ? "block" : "none";
             }
         }
     </script>
