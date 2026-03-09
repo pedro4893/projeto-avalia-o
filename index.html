@@ -3,198 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selene - Observatório Lunar 2026</title>
+    <title>LUNA 2026 - Eventos Astronômicos</title>
     <style>
         :root {
-            --moon-white: #f0f0f0;
-            --space-black: #0a0a0c;
             --glass: rgba(255, 255, 255, 0.1);
+            --accent: #00d4ff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--space-black);
-            background-image: 
-                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
-                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
-            background-size: 550px 550px, 350px 350px;
+            font-family: 'Segoe UI', sans-serif;
+            background: #050505 url('https://www.transparenttextures.com/patterns/stardust.png') fixed;
             color: white;
             line-height: 1.6;
-            scroll-behavior: smooth;
         }
 
-        /* Menu de Navegação */
+        /* Menu com Barra de Pesquisa Integrada */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 1.2rem;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px);
+            padding: 10px 5%;
             display: flex;
-            justify-content: center;
-            gap: 30px;
+            align-items: center;
+            justify-content: space-between;
             z-index: 1000;
             border-bottom: 1px solid var(--glass);
         }
 
-        nav a {
-            color: var(--moon-white);
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        .nav-links { display: flex; gap: 25px; }
+        .nav-links a { 
+            color: white; 
+            text-decoration: none; 
+            font-weight: 500; 
             font-size: 0.9rem;
-            transition: 0.3s;
+            text-transform: uppercase;
         }
 
-        nav a:hover { color: #888; }
+        .search-nav { position: relative; }
+        .search-nav input {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid var(--glass);
+            background: rgba(255,255,255,0.05);
+            color: white;
+            outline: none;
+            width: 200px;
+            transition: width 0.4s;
+        }
+        .search-nav input:focus { width: 300px; border-color: var(--accent); }
 
-        /* Header */
+        /* Hero Section */
         header {
-            height: 80vh;
+            height: 50vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), #050505), 
+                        url('https://images.unsplash.com/photo-1476136230993-9d2c444505bb?auto=format&fit=crop&w=1500&q=80');
+            background-size: cover;
+            background-position: center;
             text-align: center;
-            background: radial-gradient(circle at center, #111 0%, transparent 70%);
         }
 
-        h1 { font-size: 3.5rem; margin-bottom: 10px; letter-spacing: 5px; }
+        /* Conteúdo */
+        .container { max-width: 1200px; margin: 80px auto; padding: 20px; }
 
-        /* Barra de Pesquisa */
-        .search-box {
-            margin-top: 30px;
-            position: relative;
-        }
-
-        #search-input {
-            padding: 15px 25px;
-            width: 350px;
-            border-radius: 30px;
-            border: 1px solid var(--glass);
+        .event-card {
             background: var(--glass);
-            color: white;
-            outline: none;
-            font-size: 1rem;
-        }
-
-        /* Seção de Luas e Eventos */
-        .container {
-            max-width: 1100px;
-            margin: 50px auto;
-            padding: 20px;
-        }
-
-        .event-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
-
-        .card {
-            background: var(--glass);
-            border-radius: 20px;
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: transform 0.3s;
-        }
-
-        .card:hover { transform: translateY(-10px); border-color: rgba(255,255,255,0.2); }
-
-        .card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
             border-radius: 15px;
-            margin-bottom: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
         }
 
-        .card h3 { color: #ddd; margin-bottom: 10px; }
-        .card p { font-size: 0.95rem; color: #ccc; }
-        .tag { font-size: 0.7rem; background: #333; padding: 3px 10px; border-radius: 10px; display: inline-block; margin-bottom: 10px; }
+        .event-card:hover { border-color: var(--accent); transform: scale(1.01); }
 
-        footer {
-            text-align: center;
-            padding: 40px;
-            background: #050505;
-            border-top: 1px solid var(--glass);
-            margin-top: 50px;
+        .event-img { width: 350px; object-fit: cover; }
+
+        .event-info { padding: 30px; }
+        .event-info h2 { color: var(--accent); margin-bottom: 10px; }
+        .date-tag { background: #222; padding: 4px 12px; border-radius: 5px; font-size: 0.8rem; }
+
+        .explanation {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-style: italic;
+            color: #aaa;
         }
-    </style>
-</head>
-<body>
-
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#search-section">Pesquisa</a>
-        <a href="#luas">Luas</a>
-    </nav>
-
-    <header id="home">
-        <h1>LUNA 2026</h1>
-        <p>Cronograma de eventos astronômicos e mistérios do satélite.</p>
-        
-        <div class="search-box" id="search-section">
-            <input type="text" id="search-input" placeholder="Busque por 'Eclipse', 'Superlua'..." onkeyup="searchEvent()">
-        </div>
-    </header>
-
-    <div class="container" id="luas">
-        <h2 style="margin-bottom: 30px;">Eventos de 2026</h2>
-        
-        <div class="event-grid" id="event-list">
-            
-            <div class="card">
-                <span class="tag">MARÇO 2026</span>
-                <img src="https://images.unsplash.com/photo-1532693322450-2cb5c511067d?auto=format&fit=crop&w=500&q=80" alt="Eclipse Lunar">
-                <h3>Eclipse Lunar Total</h3>
-                <p><strong>O que é:</strong> A Terra se alinha entre o Sol e a Lua, projetando sua sombra total sobre a superfície lunar.</p>
-                <p><strong>Por que acontece:</strong> Ocorre apenas na fase de Lua Cheia, quando a inclinação da órbita permite o alinhamento perfeito dos três corpos celestes.</p>
-            </div>
-
-            <div class="card">
-                <span class="tag">AGOSTO 2026</span>
-                <img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=500&q=80" alt="Eclipse Solar Total">
-                <h3>Eclipse Solar Total</h3>
-                <p><strong>O que é:</strong> A Lua passa diretamente entre a Terra e o Sol, bloqueando toda a luz solar por alguns minutos.</p>
-                <p><strong>Por que acontece:</strong> É uma coincidência geométrica onde o diâmetro aparente da Lua é maior que o do Sol visto da Terra.</p>
-            </div>
-
-            <div class="card">
-                <span class="tag">DEZEMBRO 2026</span>
-                <img src="https://images.unsplash.com/photo-1506335969641-799d6389f417?auto=format&fit=crop&w=500&q=80" alt="Superlua">
-                <h3>A Grande Superlua</h3>
-                <p><strong>O que é:</strong> Uma Lua Cheia que parece significativamente maior e mais brilhante que o normal.</p>
-                <p><strong>Por que acontece:</strong> Ocorre quando a fase cheia coincide com o "Perigeu", o ponto da órbita lunar mais próximo da Terra.</p>
-            </div>
-
-        </div>
-    </div>
-
-    <footer>
-        <p>&copy; 2026 Observatório Selene. Explore o cosmos.</p>
-    </footer>
-
-    <script>
-        function searchEvent() {
-            let input = document.getElementById('search-input').value.toLowerCase();
-            let cards = document.getElementsByClassName('card');
-            
-            for (let i = 0; i < cards.length; i++) {
-                let title = cards[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
-                let desc = cards[i].getElementsByTagName('p')[0].innerText.toLowerCase();
-                
-                if (title.includes(input) || desc.includes(input)) {
-                    cards[i].style.display = "";
-                } else {
-                    cards[i].style.display = "none";
-                }
-            }
-        }
-    </script>
-
-</body>
-</html>
