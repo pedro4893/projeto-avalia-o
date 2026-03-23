@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Lunarium | Calendário de Eventos Lunares 2026</title>
+    <title>Lunarium | Carrossel de Luas - Eventos Lunares 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -149,6 +149,115 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+        }
+
+        /* ========== CARROSSEL ========== */
+        .carrossel-section {
+            margin-bottom: 3rem;
+        }
+        .carrossel-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            border-left: 5px solid #ffcd7e;
+            padding-left: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+        .carousel-container {
+            position: relative;
+            border-radius: 2rem;
+            overflow: hidden;
+            background: rgba(0,0,0,0.4);
+        }
+        .carousel-slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            border-radius: 1.5rem;
+        }
+        .carousel-slide {
+            min-width: 100%;
+            position: relative;
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+        .carousel-img {
+            width: 100%;
+            height: 420px;
+            background-size: cover;
+            background-position: center 30%;
+            position: relative;
+        }
+        .carousel-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, #03050be6, transparent);
+            padding: 2rem 2rem 1.5rem;
+            color: white;
+        }
+        .carousel-overlay h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .carousel-overlay .carousel-date {
+            display: inline-block;
+            background: #ffcd7e33;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            margin-bottom: 0.8rem;
+        }
+        .carousel-overlay p {
+            max-width: 80%;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            border: none;
+            color: #ffd966;
+            font-size: 2rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: 0.2s;
+            z-index: 10;
+        }
+        .carousel-btn:hover {
+            background: #ffcd7e;
+            color: #0a0f1e;
+        }
+        .btn-prev {
+            left: 1rem;
+        }
+        .btn-next {
+            right: 1rem;
+        }
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-top: 1rem;
+            padding-bottom: 0.5rem;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #5a6e8a;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .dot.active {
+            background: #ffcd7e;
+            width: 28px;
+            border-radius: 10px;
         }
 
         .section-title {
@@ -357,6 +466,16 @@
             .hero h1 {
                 font-size: 1.9rem;
             }
+            .carousel-img {
+                height: 320px;
+            }
+            .carousel-overlay h3 {
+                font-size: 1.4rem;
+            }
+            .carousel-overlay p {
+                max-width: 100%;
+                font-size: 0.8rem;
+            }
         }
 
         .no-results {
@@ -371,6 +490,11 @@
             margin-top: 0.6rem;
             color: #ffcd7eaa;
         }
+        .pill {
+            background: #ffcd7e22;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+        }
     </style>
 </head>
 <body>
@@ -383,7 +507,7 @@
         </div>
         <div class="search-container">
             <i class="fas fa-search"></i>
-            <input type="text" id="search-input" placeholder="Pesquisar luas ou eventos... (ex: Superlua, Eclipse, Vênus)">
+            <input type="text" id="search-input" placeholder="Pesquisar luas ou eventos... (ex: Superlua, Eclipse)">
             <button id="search-clear" class="search-clear"><i class="fas fa-times-circle"></i></button>
         </div>
         <ul class="nav-links">
@@ -399,12 +523,12 @@
 
 <footer>
     <div class="footer-content">
-        <p><i class="fas fa-meteor"></i> Observatório Lunar 2026 | Clique em qualquer card para detalhes completos de cada fenômeno.</p>
-        <p>© 2026 Lunarium - Superluas, Eclipses, Ocultações e aproximações planetárias - Pesquisa astronômica.</p>
+        <p><i class="fas fa-meteor"></i> Lunarium 2026 | Carrossel interativo com os principais fenômenos lunares. Clique nos cards para mais informações.</p>
+        <p>© 2026 - Superluas, Eclipses, Ocultações - Pesquisa astronômica completa.</p>
     </div>
 </footer>
 
-<!-- Modal para detalhes -->
+<!-- Modal -->
 <div id="detail-modal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -426,99 +550,98 @@
     const eventos = [
         {
             id: 1,
-            titulo: "Superlua Nova",
+            titulo: "🌑 Superlua Nova",
             data: "3 de Janeiro",
-            descricao: "A primeira Superlua do ano ocorre quando a Lua Nova coincide com o perigeu (máxima aproximação da Terra). O céu fica extraordinariamente escuro, ideal para observar estrelas e constelações. É o momento perfeito para registrar a silhueta lunar e sentir a força gravitacional das marés.",
+            descricao: "Superlua Nova no perigeu, céu escuro perfeito para observar estrelas.",
             descricaoCompleta: "Durante a Superlua Nova, a Lua está entre a Terra e o Sol, mas por estar mais próxima, o perigeu intensifica as marés. É um excelente período para astrofotografia de céu profundo devido à ausência de luz lunar. Fenômeno ocorre apenas algumas vezes ao ano.",
-            imagem: "https://images.pexels.com/photos/47367/full-moon-moonlight-nature-47367.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+            imagem: "https://images.pexels.com/photos/47367/full-moon-moonlight-nature-47367.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop",
             extra: "🌑 Distância: ~357.000 km | Sem luz refletida, mas energia máxima.",
             categoria: "Superlua, Lua Nova"
         },
         {
             id: 2,
-            titulo: "Eclipse Lunar Total (Lua de Sangue)",
+            titulo: "❤️ Eclipse Lunar Total (Lua de Sangue)",
             data: "3 de Março",
-            descricao: "A Lua mergulha na sombra da Terra, adquirindo uma coloração avermelhada devido à refração da luz solar na atmosfera. Um fenômeno espetacular visível em grande parte do mundo. A 'Lua de Sangue' simboliza mistério e beleza rara.",
+            descricao: "A Lua adquire coloração avermelhada devido à refração da luz solar na atmosfera.",
             descricaoCompleta: "Durante a totalidade, a Lua adquire tons que variam do cobre ao vermelho sangue. A atmosfera terrestre filtra a luz azul e espalha a vermelha. Esse eclipse total tem duração aproximada de 1h18. Fenômeno seguro de observar a olho nu.",
-            imagem: "https://images.pexels.com/photos/17431603/pexels-photo-17431603/free-photo-of-lua-de-sangue.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+            imagem: "https://images.pexels.com/photos/17431603/pexels-photo-17431603/free-photo-of-lua-de-sangue.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop",
             extra: "❤️ Início totalidade: 23h30 | Duração: 1h18min | Tom avermelhado intenso.",
             categoria: "Eclipse, Lua de Sangue"
         },
         {
             id: 3,
-            titulo: "Aproximação da Lua com Marte e Mercúrio",
+            titulo: "🔭 Aproximação: Lua + Marte + Mercúrio",
             data: "18 de Março",
-            descricao: "Conjunção tripla: a Lua crescente se aproxima de Marte e Mercúrio no céu ocidental após o pôr do sol. Um belo trio celeste para observação a olho nu ou com binóculos.",
+            descricao: "Conjunção tripla: Lua, Marte e Mercúrio alinhados no céu ocidental.",
             descricaoCompleta: "Marte apresenta coloração alaranjada e Mercúrio brilha próximo ao horizonte. Aproximação aparente inferior a 3 graus. Fenômeno ideal para observadores iniciantes, visível em céu limpo ao entardecer.",
-            imagem: "https://images.pexels.com/photos/2680270/pexels-photo-2680270.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+            imagem: "https://images.pexels.com/photos/2680270/pexels-photo-2680270.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop",
             extra: "🔭 Separação aparente < 3° | Melhor horário: 19h-20h.",
             categoria: "Conjunção, Marte, Mercúrio"
         },
         {
             id: 4,
-            titulo: "Lua Azul (segunda lua cheia do mês)",
+            titulo: "💙 Lua Azul (segunda lua cheia)",
             data: "31 de Maio",
-            descricao: "Definição clássica: segunda Lua Cheia em um mesmo mês. Apesar do nome, a Lua não fica azul, mas o evento é raro (a cada 2,5 anos).",
+            descricao: "Segunda Lua Cheia no mesmo mês, fenômeno raro a cada 2,5 anos.",
             descricaoCompleta: "O termo 'Lua Azul' tem origem em expressões antigas. Essa Lua Cheia extra ocorre devido à diferença entre o ciclo lunar e o calendário. É uma ótima oportunidade para observação noturna e rituais culturais.",
-            imagem: "https://images.pexels.com/photos/69982/full-moon-moonlight-fullmoon-lune-69982.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+            imagem: "https://images.pexels.com/photos/69982/full-moon-moonlight-fullmoon-lune-69982.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop",
             extra: "💙 Fenômeno calendárico | Ocorre aproximadamente a cada 2,7 anos.",
             categoria: "Lua Azul, Lua Cheia"
         },
         {
             id: 5,
-            titulo: "A Lua esconde Vênus (ocultação diurna)",
+            titulo: "🌟 Lua esconde Vênus (ocultação diurna)",
             data: "17 de Junho",
-            descricao: "Ocultação de Vênus pela Lua durante o dia! Um desafio de observação, ideal com telescópio ou binóculos potentes.",
+            descricao: "Ocultação de Vênus pela Lua durante o dia. Desafio para telescópios.",
             descricaoCompleta: "Vênus, o planeta mais brilhante, desaparece atrás do disco lunar e reaparece. O evento é diurno, exigindo instrumentos ópticos com proteção adequada. Raro e fascinante para astrofotógrafos.",
-            imagem: "https://images.pexels.com/photos/1108542/pexels-photo-1108542.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
-            extra: "🕒 Ocultação diurna: das 14h às 15h (horário local) | Vênus brilha intenso.",
+            imagem: "https://images.pexels.com/photos/1108542/pexels-photo-1108542.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop",
+            extra: "🕒 Ocultação diurna: das 14h às 15h | Vênus brilha intenso.",
             categoria: "Ocultação, Vênus"
         },
         {
             id: 6,
-            titulo: "Eclipse Lunar Parcial",
+            titulo: "🌗 Eclipse Lunar Parcial",
             data: "27-28 de Agosto",
-            descricao: "A Lua atravessa parte da umbra terrestre, criando uma 'mordida' escura em sua superfície. Eclipse parcial visível em diversos continentes.",
+            descricao: "Eclipse parcial com 'mordida' escura na superfície lunar.",
             descricaoCompleta: "Cobertura umbral de aproximadamente 63%. O fenômeno é visível em toda América do Sul, partes da Europa e África. O ápice ocorre na madrugada do dia 28.",
-            imagem: "https://images.pexels.com/photos/1252869/pexels-photo-1252869.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+            imagem: "https://images.pexels.com/photos/1252869/pexels-photo-1252869.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop",
             extra: "🌗 Máximo do eclipse às 04h13 | Cobertura umbral: 63%.",
             categoria: "Eclipse Parcial"
         },
         {
             id: 7,
-            titulo: "A Lua esconde Júpiter",
+            titulo: "🪐 Lua esconde Júpiter",
             data: "6 de Outubro",
-            descricao: "Júpiter, o gigante gasoso, passa atrás da Lua em um fenômeno de ocultação. O planeta com suas luas galileanas fica encoberto pelo disco lunar.",
+            descricao: "Júpiter desaparece atrás da Lua em ocultação espetacular.",
             descricaoCompleta: "Ocultação de Júpiter visível em várias regiões do Brasil. Recomenda-se uso de telescópio para observar o momento em que o planeta desaparece e reaparece no limbo lunar. Júpiter estará em magnitude -2.8.",
-            imagem: "https://images.pexels.com/photos/1308940/pexels-photo-1308940.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
-            extra: "🪐 Júpiter em magnitude -2.8 | Ocultação visível no Brasil e América do Sul.",
+            imagem: "https://images.pexels.com/photos/1308940/pexels-photo-1308940.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop",
+            extra: "🪐 Júpiter magnitude -2.8 | Visível no Brasil e América do Sul.",
             categoria: "Ocultação, Júpiter"
         },
         {
             id: 8,
-            titulo: "Superlua de Natal",
+            titulo: "🎄 Superlua de Natal",
             data: "24 de Dezembro",
-            descricao: "A última Superlua do ano ilumina a véspera de Natal com um disco até 14% maior e 30% mais brilhante. A Lua Cheia no perigeu cria um espetáculo mágico.",
+            descricao: "Superlua brilhante na véspera de Natal, até 30% mais brilhante.",
             descricaoCompleta: "Superlua de Natal é um dos eventos mais aguardados. A combinação da órbita elíptica da Lua com a fase cheia proporciona visibilidade impressionante. Perfeito para fotografias junto a paisagens urbanas.",
-            imagem: "https://images.pexels.com/photos/355241/pexels-photo-355241.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
-            extra: "🎄 Distância: 361.000 km | Nascimento da lua às 18h12, espetáculo festivo.",
+            imagem: "https://images.pexels.com/photos/355241/pexels-photo-355241.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop",
+            extra: "🎄 Distância: 361.000 km | Nascimento às 18h12.",
             categoria: "Superlua, Natal"
         }
     ];
 
-    // Variáveis globais
     let currentView = 'home';
     let currentSearchTerm = '';
     let filteredEventos = [...eventos];
+    let carouselIndex = 0;
+    let carouselInterval = null;
 
-    // DOM elements
     const dynamicView = document.getElementById('dynamic-view');
     const searchInput = document.getElementById('search-input');
     const searchClear = document.getElementById('search-clear');
     const modal = document.getElementById('detail-modal');
     const closeModalBtn = document.querySelector('.close-modal');
 
-    // Função de filtro por pesquisa (título, descrição, categoria, data)
     function filterEventsBySearch(term) {
         if (!term.trim()) {
             filteredEventos = [...eventos];
@@ -535,66 +658,175 @@
         );
     }
 
-    // Atualiza interface baseado na view atual e termo de pesquisa
     function refreshDisplay() {
         if (currentView === 'home') {
-            renderHomeView();
+            renderHomeWithCarousel();
         } else {
             renderEventosView();
         }
     }
 
-    function renderHomeView() {
-        const term = currentSearchTerm;
-        let eventosParaMostrar = filteredEventos;
-        if (term.trim() !== '') {
-            // home também mostra resultados filtrados (com destaque de pesquisa)
-            if (eventosParaMostrar.length === 0) {
-                dynamicView.innerHTML = `
-                    <div class="hero">
-                        <h1><i class="fas fa-moon"></i> Pesquisa Lunar</h1>
-                        <p>Nenhum evento encontrado para "${escapeHtml(term)}". Tente outro termo como "Eclipse", "Superlua" ou "Júpiter".</p>
-                    </div>
-                    <div class="no-results"><i class="fas fa-search"></i> Sem resultados :( <br> Limpe a pesquisa para ver todos os eventos.</div>
-                `;
-                return;
+    // Carrossel: iniciar e parar
+    function startCarousel() {
+        if (carouselInterval) clearInterval(carouselInterval);
+        carouselInterval = setInterval(() => {
+            if (currentView === 'home') {
+                nextSlide();
             }
+        }, 5000);
+    }
+    function stopCarousel() {
+        if (carouselInterval) {
+            clearInterval(carouselInterval);
+            carouselInterval = null;
         }
-        // Render home com hero e destaques filtrados
-        const destaques = eventosParaMostrar.slice(0, 4);
-        const maisCount = eventosParaMostrar.length - destaques.length;
+    }
+
+    function nextSlide() {
+        if (filteredEventos.length === 0) return;
+        carouselIndex = (carouselIndex + 1) % filteredEventos.length;
+        updateCarouselDisplay();
+    }
+
+    function prevSlide() {
+        if (filteredEventos.length === 0) return;
+        carouselIndex = (carouselIndex - 1 + filteredEventos.length) % filteredEventos.length;
+        updateCarouselDisplay();
+    }
+
+    function goToSlide(index) {
+        if (index >= 0 && index < filteredEventos.length) {
+            carouselIndex = index;
+            updateCarouselDisplay();
+        }
+    }
+
+    function updateCarouselDisplay() {
+        if (filteredEventos.length === 0) return;
+        const slidesContainer = document.querySelector('.carousel-slides');
+        if (!slidesContainer) return;
+        slidesContainer.style.transform = `translateX(-${carouselIndex * 100}%)`;
+        // atualizar dots
+        const dots = document.querySelectorAll('.dot');
+        dots.forEach((dot, i) => {
+            if (i === carouselIndex) dot.classList.add('active');
+            else dot.classList.remove('active');
+        });
+    }
+
+    function renderHomeWithCarousel() {
+        const term = currentSearchTerm;
+        let eventosCarrossel = filteredEventos;
+        
+        if (eventosCarrossel.length === 0) {
+            dynamicView.innerHTML = `
+                <div class="hero">
+                    <h1><i class="fas fa-moon"></i> Lunarium 2026</h1>
+                    <p>Nenhum evento encontrado para "${escapeHtml(term)}". Tente "Eclipse", "Superlua" ou "Júpiter".</p>
+                </div>
+                <div class="no-results"><i class="fas fa-search"></i> Sem resultados :(</div>
+            `;
+            return;
+        }
+
+        // Reset carousel index se necessário
+        if (carouselIndex >= eventosCarrossel.length) carouselIndex = 0;
+        
+        // Construir slides do carrossel
+        let slidesHtml = '';
+        let dotsHtml = '';
+        eventosCarrossel.forEach((ev, idx) => {
+            slidesHtml += `
+                <div class="carousel-slide">
+                    <div class="carousel-img" style="background-image: url('${ev.imagem}');">
+                        <div class="carousel-overlay">
+                            <div class="carousel-date"><i class="far fa-calendar-alt"></i> ${ev.data}</div>
+                            <h3>${ev.titulo}</h3>
+                            <p>${ev.descricao}</p>
+                            <div style="margin-top: 0.6rem;"><span class="pill" style="background:#000000aa;"><i class="fas fa-info-circle"></i> ${ev.extra.substring(0, 70)}</span></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            dotsHtml += `<div class="dot ${idx === carouselIndex ? 'active' : ''}" data-index="${idx}"></div>`;
+        });
+
+        const carouselHTML = `
+            <div class="carrossel-section">
+                <div class="carrossel-title">
+                    <i class="fas fa-images"></i> Deslize pelas Luas e Eventos
+                </div>
+                <div class="carousel-container">
+                    <button class="carousel-btn btn-prev" id="carousel-prev"><i class="fas fa-chevron-left"></i></button>
+                    <div class="carousel-slides" style="display: flex;">
+                        ${slidesHtml}
+                    </div>
+                    <button class="carousel-btn btn-next" id="carousel-next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="carousel-dots" id="carousel-dots">
+                    ${dotsHtml}
+                </div>
+            </div>
+        `;
+
+        const eventosParaCards = eventosCarrossel.slice(0, 6);
         dynamicView.innerHTML = `
             <div class="hero">
                 <h1><i class="fas fa-moon"></i> Calendário Lunar 2026</h1>
-                <p>Superluas, Eclipses, Ocultações e Encontros Planetários — Pesquise eventos, clique em qualquer card para detalhes completos.</p>
-                ${currentSearchTerm ? `<div class="pill" style="background:#ffcd7e22; display:inline-block; margin-top:1rem;"><i class="fas fa-filter"></i> Resultados para: "${escapeHtml(currentSearchTerm)}" (${eventosParaMostrar} encontrados)</div>` : '<div class="intro-text">🔭 Utilize a barra de pesquisa para filtrar por nome, planeta ou fenômeno.</div>'}
+                <p>Superluas, Eclipses, Ocultações e Encontros Planetários — Explore o carrossel e clique nos cards para detalhes completos.</p>
+                ${currentSearchTerm ? `<div class="pill" style="display:inline-block; margin-top:1rem;"><i class="fas fa-filter"></i> Filtro: "${escapeHtml(currentSearchTerm)}" · ${eventosCarrossel.length} resultados</div>` : '<div class="intro-text">🔭 Use a barra de pesquisa e navegue pelo carrossel interativo.</div>'}
             </div>
+            ${carouselHTML}
             <div class="section-title">
-                <span><i class="fas fa-star"></i> Eventos em Destaque</span>
-                <span class="result-count">${eventosParaMostrar.length} evento(s)</span>
+                <span><i class="fas fa-star"></i> Principais Fenômenos</span>
+                <span class="result-count">${eventosCarrossel.length} evento(s)</span>
             </div>
             <div class="events-grid">
-                ${destaques.map(evento => criarCardHTML(evento)).join('')}
+                ${eventosParaCards.map(evento => criarCardHTML(evento)).join('')}
             </div>
-            ${maisCount > 0 ? `<div style="text-align: center; margin: 2rem 0 0;"><a id="view-all-link" style="background:#ffcd7e22; padding:0.7rem 2rem; border-radius:40px; cursor:pointer; display:inline-block;"><i class="fas fa-arrow-right"></i> Ver todos os ${maisCount + destaques.length} eventos →</a></div>` : ''}
+            ${eventosCarrossel.length > 6 ? `<div style="text-align: center; margin: 2rem 0 0;"><a id="view-all-link" style="background:#ffcd7e22; padding:0.7rem 2rem; border-radius:40px; cursor:pointer; display:inline-block;"><i class="fas fa-arrow-right"></i> Ver todos os ${eventosCarrossel.length} eventos →</a></div>` : ''}
         `;
+        
+        // Atribuir eventos do carrossel
+        const prevBtn = document.getElementById('carousel-prev');
+        const nextBtn = document.getElementById('carousel-next');
+        if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); restartAutoSlide(); });
+        if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); restartAutoSlide(); });
+        
+        const dots = document.querySelectorAll('.dot');
+        dots.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                const idx = parseInt(dot.getAttribute('data-index'));
+                goToSlide(idx);
+                restartAutoSlide();
+            });
+        });
+        
         const viewAllLink = document.getElementById('view-all-link');
         if (viewAllLink) {
             viewAllLink.addEventListener('click', () => {
                 document.getElementById('nav-eventos').click();
             });
         }
+        
         attachCardClickEvents();
+        startCarousel();
+    }
+
+    function restartAutoSlide() {
+        stopCarousel();
+        startCarousel();
     }
 
     function renderEventosView() {
+        stopCarousel();
         const term = currentSearchTerm;
         let eventosParaMostrar = filteredEventos;
         if (eventosParaMostrar.length === 0) {
             dynamicView.innerHTML = `
                 <div class="hero">
                     <h1><i class="fas fa-calendar-alt"></i> Todos os Eventos</h1>
-                    <p>Nenhum fenômeno encontrado com "${escapeHtml(term)}". Tente "Lua de Sangue", "Superlua" ou "ocultação".</p>
+                    <p>Nenhum fenômeno encontrado com "${escapeHtml(term)}". Tente "Lua de Sangue" ou "ocultação".</p>
                 </div>
                 <div class="no-results"><i class="fas fa-moon"></i> Limpe a pesquisa para visualizar o calendário completo.</div>
             `;
@@ -603,141 +835,8 @@
         dynamicView.innerHTML = `
             <div class="hero" style="background: linear-gradient(135deg, #101a2b, #03050b);">
                 <h1><i class="fas fa-calendar-alt"></i> Calendário Completo</h1>
-                <p>Explore os 8 principais eventos lunares de 2026 com descrições científicas, curiosidades e dados astronômicos.</p>
-                ${currentSearchTerm ? `<div><span class="pill" style="background:#ffcd7e33;">🔎 Filtro: "${escapeHtml(currentSearchTerm)}" · ${eventosParaMostrar.length} resultados</span></div>` : ''}
+                <p>Explore os ${eventos.length} eventos lunares de 2026 com descrições científicas e curiosidades.</p>
+                ${currentSearchTerm ? `<div><span class="pill">🔎 Filtro: "${escapeHtml(currentSearchTerm)}" · ${eventosParaMostrar.length} resultados</span></div>` : ''}
             </div>
             <div class="section-title">
-                <span><i class="fas fa-moon"></i> Cronologia Celeste</span>
-                <span class="result-count">${eventosParaMostrar.length} evento(s)</span>
-            </div>
-            <div class="events-grid">
-                ${eventosParaMostrar.map(evento => criarCardHTML(evento)).join('')}
-            </div>
-        `;
-        attachCardClickEvents();
-    }
-
-    function criarCardHTML(evento) {
-        const imgStyle = `background-image: url('${evento.imagem}'); background-size: cover; background-position: center;`;
-        return `
-            <div class="card" data-id="${evento.id}">
-                <div class="card-img" style="${imgStyle}">
-                    <div class="card-date"><i class="far fa-calendar-alt"></i> ${evento.data}</div>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">${evento.titulo}</div>
-                    <div class="card-desc">${evento.descricao.length > 110 ? evento.descricao.substring(0,107)+'...' : evento.descricao}</div>
-                    <div class="extra-detail"><i class="fas fa-info-circle"></i> ${evento.extra}</div>
-                    <div class="badge-click"><i class="fas fa-hand-pointer"></i> Clique para mais detalhes</div>
-                </div>
-            </div>
-        `;
-    }
-
-    function attachCardClickEvents() {
-        document.querySelectorAll('.card').forEach(card => {
-            card.removeEventListener('click', cardClickHandler);
-            card.addEventListener('click', cardClickHandler);
-        });
-    }
-
-    function cardClickHandler(e) {
-        const cardDiv = e.currentTarget;
-        const id = parseInt(cardDiv.getAttribute('data-id'));
-        const evento = eventos.find(ev => ev.id === id);
-        if (evento) openModal(evento);
-    }
-
-    function openModal(evento) {
-        document.getElementById('modal-title').innerText = evento.titulo;
-        const modalImgDiv = document.getElementById('modal-img');
-        modalImgDiv.style.backgroundImage = `url('${evento.imagem}')`;
-        modalImgDiv.style.backgroundSize = "cover";
-        modalImgDiv.style.backgroundPosition = "center";
-        document.getElementById('modal-date').innerHTML = `<i class="far fa-calendar-alt"></i> ${evento.data}`;
-        document.getElementById('modal-desc').innerHTML = `<strong>Descrição:</strong><br>${evento.descricaoCompleta || evento.descricao}`;
-        document.getElementById('modal-extra').innerHTML = `<i class="fas fa-star-of-life"></i> ${evento.extra}`;
-        const scientificDiv = document.getElementById('modal-scientific');
-        scientificDiv.innerHTML = `<i class="fas fa-globe"></i> Pesquisa Astronômica: ${evento.titulo} é um fenômeno de grande interesse científico. ${evento.categoria ? `Categoria: ${evento.categoria}.` : ''} Dados baseados em efemérides da NASA.`;
-        modal.style.display = 'flex';
-    }
-
-    function closeModal() {
-        modal.style.display = 'none';
-    }
-
-    function escapeHtml(str) {
-        if(!str) return '';
-        return str.replace(/[&<>]/g, function(m) {
-            if(m === '&') return '&amp;';
-            if(m === '<') return '&lt;';
-            if(m === '>') return '&gt;';
-            return m;
-        });
-    }
-
-    // Pesquisa em tempo real
-    function handleSearch() {
-        currentSearchTerm = searchInput.value;
-        if (currentSearchTerm.trim() === '') {
-            searchClear.style.display = 'none';
-        } else {
-            searchClear.style.display = 'block';
-        }
-        filterEventsBySearch(currentSearchTerm);
-        refreshDisplay();
-    }
-
-    function clearSearch() {
-        searchInput.value = '';
-        currentSearchTerm = '';
-        searchClear.style.display = 'none';
-        filterEventsBySearch('');
-        refreshDisplay();
-    }
-
-    // Navegação
-    function setActiveNav(view) {
-        const homeLink = document.getElementById('nav-home');
-        const eventosLink = document.getElementById('nav-eventos');
-        if (view === 'home') {
-            homeLink.classList.add('active');
-            eventosLink.classList.remove('active');
-        } else {
-            homeLink.classList.remove('active');
-            eventosLink.classList.add('active');
-        }
-    }
-
-    function goToHome() {
-        currentView = 'home';
-        setActiveNav('home');
-        refreshDisplay();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function goToEventos() {
-        currentView = 'eventos';
-        setActiveNav('eventos');
-        refreshDisplay();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // Event listeners e inicialização
-    function init() {
-        document.getElementById('nav-home').addEventListener('click', goToHome);
-        document.getElementById('nav-eventos').addEventListener('click', goToEventos);
-        searchInput.addEventListener('input', handleSearch);
-        searchClear.addEventListener('click', clearSearch);
-        closeModalBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        });
-        filterEventsBySearch('');
-        goToHome(); // view inicial
-    }
-
-    init();
-</script>
-</body>
-</html>
+                <span><i class="fas fa-moon"></i> Cronologia Celeste</span
