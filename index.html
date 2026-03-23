@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Calendário Lunar | Eventos Celestes 2026</title>
-    <!-- Google Fonts para tipografia moderna -->
+    <title>Lunarium | Calendário de Eventos Lunares 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
-    <!-- Font Awesome 6 (ícones) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -21,13 +19,13 @@
             font-family: 'Inter', sans-serif;
             line-height: 1.5;
             scroll-behavior: smooth;
+            min-height: 100vh;
         }
 
-        /* Header e navegação */
         header {
-            background: rgba(5, 8, 18, 0.85);
+            background: rgba(5, 8, 18, 0.92);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 215, 150, 0.25);
+            border-bottom: 1px solid rgba(255, 215, 150, 0.3);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -75,6 +73,7 @@
             display: flex;
             align-items: center;
             gap: 0.4rem;
+            cursor: pointer;
         }
 
         .nav-links a:hover, .nav-links a.active {
@@ -82,19 +81,61 @@
             text-shadow: 0 0 5px rgba(255, 200, 80, 0.4);
         }
 
-        /* Main content */
+        /* Barra de pesquisa */
+        .search-container {
+            display: flex;
+            align-items: center;
+            background: rgba(20, 28, 45, 0.8);
+            border-radius: 60px;
+            padding: 0.4rem 0.8rem;
+            border: 1px solid #ffd96655;
+            transition: 0.2s;
+        }
+        .search-container:focus-within {
+            border-color: #ffcd7e;
+            box-shadow: 0 0 10px rgba(255, 205, 126, 0.3);
+        }
+        .search-container i {
+            color: #ffcd7e;
+            margin-right: 8px;
+            font-size: 0.9rem;
+        }
+        #search-input {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 0.9rem;
+            padding: 0.4rem 0;
+            outline: none;
+            width: 180px;
+        }
+        #search-input::placeholder {
+            color: #9aa3c2;
+        }
+        .search-clear {
+            background: none;
+            border: none;
+            color: #9aa3c2;
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 0 4px;
+            display: none;
+        }
+        .search-clear:hover {
+            color: #ffcd7e;
+        }
+
         main {
             max-width: 1300px;
             margin: 2rem auto;
             padding: 0 1.5rem 3rem;
         }
 
-        /* Seção Home (destaque) */
         .hero {
-            background: linear-gradient(135deg, rgba(25, 35, 60, 0.6), rgba(10, 15, 30, 0.8));
+            background: linear-gradient(135deg, rgba(25, 35, 60, 0.7), rgba(10, 15, 30, 0.85));
             border-radius: 3rem;
             padding: 2.5rem 2rem;
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
             border: 1px solid rgba(255, 200, 100, 0.25);
             backdrop-filter: blur(4px);
             text-align: center;
@@ -110,52 +151,50 @@
             color: transparent;
         }
 
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 1rem;
-            color: #cfddf5;
-        }
-
-        .intro-text {
-            font-size: 1rem;
-            border-top: 1px dashed #ffd96655;
-            padding-top: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        /* Grade de eventos */
         .section-title {
             font-size: 2rem;
             font-weight: 600;
-            margin: 2rem 0 1.5rem 0;
+            margin: 1.5rem 0 1.5rem 0;
             border-left: 5px solid #ffcd7e;
             padding-left: 1rem;
             font-family: 'Playfair Display', serif;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+        }
+        .result-count {
+            font-size: 0.9rem;
+            font-weight: normal;
+            color: #ffdf9c;
+            background: #1e2a3e;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
         }
 
         .events-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
             gap: 2rem;
-            margin-top: 1rem;
+            margin-top: 0.5rem;
         }
 
         .card {
-            background: rgba(12, 18, 32, 0.7);
+            background: rgba(12, 18, 32, 0.75);
             backdrop-filter: blur(8px);
             border-radius: 2rem;
             overflow: hidden;
             transition: transform 0.25s ease, box-shadow 0.3s;
-            border: 1px solid rgba(255, 220, 140, 0.2);
+            border: 1px solid rgba(255, 220, 140, 0.25);
             display: flex;
             flex-direction: column;
+            cursor: pointer;
         }
 
         .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.5);
-            border-color: #ffcd7e66;
+            transform: translateY(-6px);
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.6);
+            border-color: #ffcd7eaa;
         }
 
         .card-img {
@@ -169,7 +208,7 @@
         }
 
         .card-date {
-            background: #000000aa;
+            background: #000000bb;
             backdrop-filter: blur(8px);
             padding: 0.3rem 1rem;
             border-radius: 30px;
@@ -201,14 +240,98 @@
         .extra-detail {
             font-size: 0.85rem;
             color: #ffdd99;
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.35);
             display: inline-block;
             padding: 0.2rem 0.8rem;
             border-radius: 20px;
             margin-top: 0.5rem;
         }
 
-        /* Rodapé */
+        /* Modal de detalhes */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+        .modal-content {
+            background: linear-gradient(145deg, #101a2e, #080c1a);
+            border-radius: 2rem;
+            max-width: 600px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid #ffcd7e;
+            box-shadow: 0 30px 40px rgba(0,0,0,0.5);
+            animation: fadeInUp 0.3s ease;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.8rem;
+            border-bottom: 1px solid #ffcd7e55;
+        }
+        .modal-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+        }
+        .close-modal {
+            background: none;
+            border: none;
+            color: #ffcd7e;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .close-modal:hover {
+            color: white;
+            transform: scale(1.1);
+        }
+        .modal-body {
+            padding: 1.5rem 1.8rem 2rem;
+        }
+        .modal-img {
+            width: 100%;
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 1.2rem;
+            margin-bottom: 1.2rem;
+        }
+        .modal-date {
+            display: inline-block;
+            background: #ffcd7e22;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .modal-desc {
+            margin: 1rem 0;
+            line-height: 1.6;
+        }
+        .modal-extra {
+            background: #1e2a44;
+            padding: 0.8rem;
+            border-radius: 1rem;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            border-left: 3px solid #ffcd7e;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
         footer {
             background: #03060ecc;
             backdrop-filter: blur(8px);
@@ -220,57 +343,33 @@
             margin-top: 3rem;
         }
 
-        footer .footer-content {
-            max-width: 1300px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-
-        footer i {
-            color: #ffc857;
-            margin: 0 4px;
-        }
-
-        /* Responsividade */
         @media (max-width: 750px) {
             .nav-container {
                 flex-direction: column;
             }
+            .search-container {
+                width: 100%;
+                justify-content: space-between;
+            }
+            #search-input {
+                width: 100%;
+            }
             .hero h1 {
                 font-size: 1.9rem;
             }
-            .card-title {
-                font-size: 1.3rem;
-            }
         }
 
-        .btn-more {
-            background: none;
-            border: 1px solid #ffcd7e;
-            color: #ffcd7e;
-            padding: 0.3rem 1rem;
-            border-radius: 30px;
-            font-size: 0.75rem;
-            cursor: default;
-            transition: 0.2s;
-            display: inline-block;
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            background: #0f1422;
+            border-radius: 2rem;
+            color: #ccc;
+        }
+        .badge-click {
+            font-size: 0.7rem;
             margin-top: 0.6rem;
-        }
-
-        .home-highlight {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-        .pill {
-            background: #1f2a44;
-            padding: 0.4rem 1rem;
-            border-radius: 40px;
-            font-size: 0.85rem;
+            color: #ffcd7eaa;
         }
     </style>
 </head>
@@ -282,165 +381,323 @@
             <i class="fas fa-moon"></i>
             <span>Lunarium</span>
         </div>
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" id="search-input" placeholder="Pesquisar luas ou eventos... (ex: Superlua, Eclipse, Vênus)">
+            <button id="search-clear" class="search-clear"><i class="fas fa-times-circle"></i></button>
+        </div>
         <ul class="nav-links">
-            <li><a href="#" id="nav-home" class="active"><i class="fas fa-home"></i> Home</a></li>
-            <li><a href="#" id="nav-eventos"><i class="fas fa-calendar-alt"></i> Eventos Lunares</a></li>
+            <li><a id="nav-home" class="active"><i class="fas fa-home"></i> Home</a></li>
+            <li><a id="nav-eventos"><i class="fas fa-calendar-alt"></i> Eventos Lunares</a></li>
         </ul>
     </div>
 </header>
 
 <main id="main-content">
-    <!-- O conteúdo será renderizado via JavaScript dinâmico, mas com fallback -->
     <div id="dynamic-view"></div>
 </main>
 
 <footer>
     <div class="footer-content">
-        <p><i class="fas fa-meteor"></i> Observatório Lunar 2026 | Todos os eventos celestes baseados em simulações astronômicas</p>
-        <p>© 2026 Lunarium - Explore as maravilhas da Lua, eclipses e aproximações planetárias. Informações de pesquisa com curadoria científica.</p>
-        <p><i class="fas fa-star"></i> Superlua, Lua de Sangue, Ocultações e mais — calendário completo </p>
+        <p><i class="fas fa-meteor"></i> Observatório Lunar 2026 | Clique em qualquer card para detalhes completos de cada fenômeno.</p>
+        <p>© 2026 Lunarium - Superluas, Eclipses, Ocultações e aproximações planetárias - Pesquisa astronômica.</p>
     </div>
 </footer>
 
+<!-- Modal para detalhes -->
+<div id="detail-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modal-title">Detalhes</h2>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div id="modal-img" class="modal-img"></div>
+            <div><span id="modal-date" class="modal-date"></span></div>
+            <div id="modal-desc" class="modal-desc"></div>
+            <div id="modal-extra" class="modal-extra"></div>
+            <div id="modal-scientific" style="margin-top: 1rem; font-size: 0.85rem; color: #b9c3e6;"><i class="fas fa-globe"></i> Informações detalhadas de pesquisa astronômica</div>
+        </div>
+    </div>
+</div>
+
 <script>
-    // Dados completos dos eventos lunares com descrições e imagens (URLs temáticas)
+    // ======================== BASE DE DADOS DOS EVENTOS ========================
     const eventos = [
         {
             id: 1,
             titulo: "Superlua Nova",
             data: "3 de Janeiro",
             descricao: "A primeira Superlua do ano ocorre quando a Lua Nova coincide com o perigeu (máxima aproximação da Terra). O céu fica extraordinariamente escuro, ideal para observar estrelas e constelações. É o momento perfeito para registrar a silhueta lunar e sentir a força gravitacional das marés.",
+            descricaoCompleta: "Durante a Superlua Nova, a Lua está entre a Terra e o Sol, mas por estar mais próxima, o perigeu intensifica as marés. É um excelente período para astrofotografia de céu profundo devido à ausência de luz lunar. Fenômeno ocorre apenas algumas vezes ao ano.",
             imagem: "https://images.pexels.com/photos/47367/full-moon-moonlight-nature-47367.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
-            extra: "🌑 Distância: ~357.000 km | Sem luz refletida, mas energia máxima."
+            extra: "🌑 Distância: ~357.000 km | Sem luz refletida, mas energia máxima.",
+            categoria: "Superlua, Lua Nova"
         },
         {
             id: 2,
             titulo: "Eclipse Lunar Total (Lua de Sangue)",
             data: "3 de Março",
             descricao: "A Lua mergulha na sombra da Terra, adquirindo uma coloração avermelhada devido à refração da luz solar na atmosfera. Um fenômeno espetacular visível em grande parte do mundo. A 'Lua de Sangue' simboliza mistério e beleza rara.",
+            descricaoCompleta: "Durante a totalidade, a Lua adquire tons que variam do cobre ao vermelho sangue. A atmosfera terrestre filtra a luz azul e espalha a vermelha. Esse eclipse total tem duração aproximada de 1h18. Fenômeno seguro de observar a olho nu.",
             imagem: "https://images.pexels.com/photos/17431603/pexels-photo-17431603/free-photo-of-lua-de-sangue.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
-            extra: "❤️ Início totalidade: 23h30 | Duração: 1h18min | Tom avermelhado intenso."
+            extra: "❤️ Início totalidade: 23h30 | Duração: 1h18min | Tom avermelhado intenso.",
+            categoria: "Eclipse, Lua de Sangue"
         },
         {
             id: 3,
             titulo: "Aproximação da Lua com Marte e Mercúrio",
             data: "18 de Março",
-            descricao: "Conjunção tripla: a Lua crescente se aproxima de Marte e Mercúrio no céu ocidental após o pôr do sol. Um belo trio celeste para observação a olho nu ou com binóculos. Marte apresenta tom alaranjado e Mercúrio brilha próximo ao horizonte.",
+            descricao: "Conjunção tripla: a Lua crescente se aproxima de Marte e Mercúrio no céu ocidental após o pôr do sol. Um belo trio celeste para observação a olho nu ou com binóculos.",
+            descricaoCompleta: "Marte apresenta coloração alaranjada e Mercúrio brilha próximo ao horizonte. Aproximação aparente inferior a 3 graus. Fenômeno ideal para observadores iniciantes, visível em céu limpo ao entardecer.",
             imagem: "https://images.pexels.com/photos/2680270/pexels-photo-2680270.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
-            extra: "🔭 Separação aparente < 3° | Melhor horário: 19h-20h."
+            extra: "🔭 Separação aparente < 3° | Melhor horário: 19h-20h.",
+            categoria: "Conjunção, Marte, Mercúrio"
         },
         {
             id: 4,
             titulo: "Lua Azul (segunda lua cheia do mês)",
             data: "31 de Maio",
-            descricao: "Definição clássica: segunda Lua Cheia em um mesmo mês. Apesar do nome, a Lua não fica azul, mas o evento é raro (a cada 2,5 anos). O brilho prateado ilumina a noite com energia especial para rituais e observação noturna.",
+            descricao: "Definição clássica: segunda Lua Cheia em um mesmo mês. Apesar do nome, a Lua não fica azul, mas o evento é raro (a cada 2,5 anos).",
+            descricaoCompleta: "O termo 'Lua Azul' tem origem em expressões antigas. Essa Lua Cheia extra ocorre devido à diferença entre o ciclo lunar e o calendário. É uma ótima oportunidade para observação noturna e rituais culturais.",
             imagem: "https://images.pexels.com/photos/69982/full-moon-moonlight-fullmoon-lune-69982.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
-            extra: "💙 Fenômeno calendárico | Ocorre aproximadamente a cada 2,7 anos."
+            extra: "💙 Fenômeno calendárico | Ocorre aproximadamente a cada 2,7 anos.",
+            categoria: "Lua Azul, Lua Cheia"
         },
         {
             id: 5,
             titulo: "A Lua esconde Vênus (ocultação diurna)",
             data: "17 de Junho",
-            descricao: "Ocultação de Vênus pela Lua durante o dia! Um desafio de observação, ideal com telescópio ou binóculos potentes. Vênus desaparece atrás do disco lunar e reaparece minutos depois. Evento raro e fascinante para astrofotografia.",
+            descricao: "Ocultação de Vênus pela Lua durante o dia! Um desafio de observação, ideal com telescópio ou binóculos potentes.",
+            descricaoCompleta: "Vênus, o planeta mais brilhante, desaparece atrás do disco lunar e reaparece. O evento é diurno, exigindo instrumentos ópticos com proteção adequada. Raro e fascinante para astrofotógrafos.",
             imagem: "https://images.pexels.com/photos/1108542/pexels-photo-1108542.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
-            extra: "🕒 Ocultação diurna: das 14h às 15h (horário local) | Vênus brilha intenso."
+            extra: "🕒 Ocultação diurna: das 14h às 15h (horário local) | Vênus brilha intenso.",
+            categoria: "Ocultação, Vênus"
         },
         {
             id: 6,
             titulo: "Eclipse Lunar Parcial",
             data: "27-28 de Agosto",
-            descricao: "A Lua atravessa parte da umbra terrestre, criando um 'mordida' escura em sua superfície. Eclipse parcial visível em continentes como América do Sul, Europa e África. Momento ideal para registrar a sombra curva da Terra na Lua.",
+            descricao: "A Lua atravessa parte da umbra terrestre, criando uma 'mordida' escura em sua superfície. Eclipse parcial visível em diversos continentes.",
+            descricaoCompleta: "Cobertura umbral de aproximadamente 63%. O fenômeno é visível em toda América do Sul, partes da Europa e África. O ápice ocorre na madrugada do dia 28.",
             imagem: "https://images.pexels.com/photos/1252869/pexels-photo-1252869.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
-            extra: "🌗 Máximo do eclipse às 04h13 | Cobertura umbral: 63%."
+            extra: "🌗 Máximo do eclipse às 04h13 | Cobertura umbral: 63%.",
+            categoria: "Eclipse Parcial"
         },
         {
             id: 7,
             titulo: "A Lua esconde Júpiter",
             data: "6 de Outubro",
-            descricao: "Júpiter, o gigante gasoso, passa atrás da Lua em um fenômeno de ocultação. O planeta com suas luas galileanas fica encoberto pelo disco lunar por cerca de uma hora. Imperdível com telescópios pequenos.",
+            descricao: "Júpiter, o gigante gasoso, passa atrás da Lua em um fenômeno de ocultação. O planeta com suas luas galileanas fica encoberto pelo disco lunar.",
+            descricaoCompleta: "Ocultação de Júpiter visível em várias regiões do Brasil. Recomenda-se uso de telescópio para observar o momento em que o planeta desaparece e reaparece no limbo lunar. Júpiter estará em magnitude -2.8.",
             imagem: "https://images.pexels.com/photos/1308940/pexels-photo-1308940.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
-            extra: "🪐 Júpiter em magnitude -2.8 | Ocultação visível no Brasil e América do Sul."
+            extra: "🪐 Júpiter em magnitude -2.8 | Ocultação visível no Brasil e América do Sul.",
+            categoria: "Ocultação, Júpiter"
         },
         {
             id: 8,
             titulo: "Superlua de Natal",
             data: "24 de Dezembro",
-            descricao: "A última Superlua do ano ilumina a véspera de Natal com um disco até 14% maior e 30% mais brilhante. A Lua Cheia no perigeu cria um espetáculo mágico, perfeito para celebrações ao ar livre e fotografia noturna.",
+            descricao: "A última Superlua do ano ilumina a véspera de Natal com um disco até 14% maior e 30% mais brilhante. A Lua Cheia no perigeu cria um espetáculo mágico.",
+            descricaoCompleta: "Superlua de Natal é um dos eventos mais aguardados. A combinação da órbita elíptica da Lua com a fase cheia proporciona visibilidade impressionante. Perfeito para fotografias junto a paisagens urbanas.",
             imagem: "https://images.pexels.com/photos/355241/pexels-photo-355241.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
-            extra: "🎄 Distância: 361.000 km | Nascimento da lua às 18h12, espetáculo festivo."
+            extra: "🎄 Distância: 361.000 km | Nascimento da lua às 18h12, espetáculo festivo.",
+            categoria: "Superlua, Natal"
         }
     ];
 
-    // Função para renderizar a HOME (conteúdo de boas-vindas e alguns cards destacados)
-    function renderHome() {
-        // Mostra hero + prévia dos 3 primeiros eventos como destaque + resumo dos demais
-        const primeirosEventos = eventos.slice(0, 3);
-        const outrosCount = eventos.length - 3;
-        return `
+    // Variáveis globais
+    let currentView = 'home';
+    let currentSearchTerm = '';
+    let filteredEventos = [...eventos];
+
+    // DOM elements
+    const dynamicView = document.getElementById('dynamic-view');
+    const searchInput = document.getElementById('search-input');
+    const searchClear = document.getElementById('search-clear');
+    const modal = document.getElementById('detail-modal');
+    const closeModalBtn = document.querySelector('.close-modal');
+
+    // Função de filtro por pesquisa (título, descrição, categoria, data)
+    function filterEventsBySearch(term) {
+        if (!term.trim()) {
+            filteredEventos = [...eventos];
+            return;
+        }
+        const lowerTerm = term.toLowerCase();
+        filteredEventos = eventos.filter(ev => 
+            ev.titulo.toLowerCase().includes(lowerTerm) ||
+            ev.descricao.toLowerCase().includes(lowerTerm) ||
+            ev.descricaoCompleta.toLowerCase().includes(lowerTerm) ||
+            ev.categoria.toLowerCase().includes(lowerTerm) ||
+            ev.data.toLowerCase().includes(lowerTerm) ||
+            ev.extra.toLowerCase().includes(lowerTerm)
+        );
+    }
+
+    // Atualiza interface baseado na view atual e termo de pesquisa
+    function refreshDisplay() {
+        if (currentView === 'home') {
+            renderHomeView();
+        } else {
+            renderEventosView();
+        }
+    }
+
+    function renderHomeView() {
+        const term = currentSearchTerm;
+        let eventosParaMostrar = filteredEventos;
+        if (term.trim() !== '') {
+            // home também mostra resultados filtrados (com destaque de pesquisa)
+            if (eventosParaMostrar.length === 0) {
+                dynamicView.innerHTML = `
+                    <div class="hero">
+                        <h1><i class="fas fa-moon"></i> Pesquisa Lunar</h1>
+                        <p>Nenhum evento encontrado para "${escapeHtml(term)}". Tente outro termo como "Eclipse", "Superlua" ou "Júpiter".</p>
+                    </div>
+                    <div class="no-results"><i class="fas fa-search"></i> Sem resultados :( <br> Limpe a pesquisa para ver todos os eventos.</div>
+                `;
+                return;
+            }
+        }
+        // Render home com hero e destaques filtrados
+        const destaques = eventosParaMostrar.slice(0, 4);
+        const maisCount = eventosParaMostrar.length - destaques.length;
+        dynamicView.innerHTML = `
             <div class="hero">
                 <h1><i class="fas fa-moon"></i> Calendário Lunar 2026</h1>
-                <p>Superluas, Eclipses, Ocultações e Encontros Planetários — Acompanhe os principais fenômenos celestes do ano com informações detalhadas e imagens.</p>
-                <div class="home-highlight">
-                    <span class="pill"><i class="fas fa-star-of-life"></i> 8 Eventos Únicos</span>
-                    <span class="pill"><i class="fas fa-telescope"></i> Lua de Sangue 3/Mar</span>
-                    <span class="pill"><i class="fas fa-mask"></i> Ocultações raras</span>
-                </div>
-                <div class="intro-text">
-                    🌌 Explore a conexão entre a Lua, planetas e os momentos de espetáculo astronômico. Clique em "Eventos Lunares" no menu para ver todos os fenômenos com descrição, imagens e detalhes científicos.
-                </div>
+                <p>Superluas, Eclipses, Ocultações e Encontros Planetários — Pesquise eventos, clique em qualquer card para detalhes completos.</p>
+                ${currentSearchTerm ? `<div class="pill" style="background:#ffcd7e22; display:inline-block; margin-top:1rem;"><i class="fas fa-filter"></i> Resultados para: "${escapeHtml(currentSearchTerm)}" (${eventosParaMostrar} encontrados)</div>` : '<div class="intro-text">🔭 Utilize a barra de pesquisa para filtrar por nome, planeta ou fenômeno.</div>'}
             </div>
-            <div class="section-title"><i class="fas fa-star"></i> Destaques do Ano</div>
+            <div class="section-title">
+                <span><i class="fas fa-star"></i> Eventos em Destaque</span>
+                <span class="result-count">${eventosParaMostrar.length} evento(s)</span>
+            </div>
             <div class="events-grid">
-                ${primeirosEventos.map(evento => criarCard(evento, true)).join('')}
+                ${destaques.map(evento => criarCardHTML(evento)).join('')}
             </div>
-            <div style="text-align: center; margin-top: 2rem;">
-                <span style="background: #1e2a3e80; padding: 0.5rem 1.5rem; border-radius: 40px;"><i class="fas fa-arrow-right"></i> Mais ${outrosCount} fenômenos imperdíveis na página de eventos</span>
-            </div>
+            ${maisCount > 0 ? `<div style="text-align: center; margin: 2rem 0 0;"><a id="view-all-link" style="background:#ffcd7e22; padding:0.7rem 2rem; border-radius:40px; cursor:pointer; display:inline-block;"><i class="fas fa-arrow-right"></i> Ver todos os ${maisCount + destaques.length} eventos →</a></div>` : ''}
         `;
-    }
-
-    // Função para renderizar a lista completa de eventos
-    function renderEventos() {
-        return `
-            <div class="hero" style="background: linear-gradient(135deg, #101a2b, #03050b);">
-                <h1><i class="fas fa-calendar-alt"></i> Todos os Eventos Lunares</h1>
-                <p>Datas marcantes de 2026: superluas, eclipses, ocultações e aproximações. Cada evento possui pesquisa detalhada e referências visuais.</p>
-            </div>
-            <div class="section-title"><i class="fas fa-moon"></i> Cronologia Celeste</div>
-            <div class="events-grid">
-                ${eventos.map(evento => criarCard(evento, false)).join('')}
-            </div>
-        `;
-    }
-
-    // Helper: criar card com imagem, descrição completa e extra
-    function criarCard(evento, isHome = false) {
-        // Para home podemos limitar um pouco a descrição? Vamos manter completa pois fica melhor.
-        let desc = evento.descricao;
-        if (isHome && desc.length > 130) {
-            desc = desc.substring(0, 127) + "...";
+        const viewAllLink = document.getElementById('view-all-link');
+        if (viewAllLink) {
+            viewAllLink.addEventListener('click', () => {
+                document.getElementById('nav-eventos').click();
+            });
         }
-        // imagem fallback caso alguma url quebre (todas são estáveis mas garantia)
+        attachCardClickEvents();
+    }
+
+    function renderEventosView() {
+        const term = currentSearchTerm;
+        let eventosParaMostrar = filteredEventos;
+        if (eventosParaMostrar.length === 0) {
+            dynamicView.innerHTML = `
+                <div class="hero">
+                    <h1><i class="fas fa-calendar-alt"></i> Todos os Eventos</h1>
+                    <p>Nenhum fenômeno encontrado com "${escapeHtml(term)}". Tente "Lua de Sangue", "Superlua" ou "ocultação".</p>
+                </div>
+                <div class="no-results"><i class="fas fa-moon"></i> Limpe a pesquisa para visualizar o calendário completo.</div>
+            `;
+            return;
+        }
+        dynamicView.innerHTML = `
+            <div class="hero" style="background: linear-gradient(135deg, #101a2b, #03050b);">
+                <h1><i class="fas fa-calendar-alt"></i> Calendário Completo</h1>
+                <p>Explore os 8 principais eventos lunares de 2026 com descrições científicas, curiosidades e dados astronômicos.</p>
+                ${currentSearchTerm ? `<div><span class="pill" style="background:#ffcd7e33;">🔎 Filtro: "${escapeHtml(currentSearchTerm)}" · ${eventosParaMostrar.length} resultados</span></div>` : ''}
+            </div>
+            <div class="section-title">
+                <span><i class="fas fa-moon"></i> Cronologia Celeste</span>
+                <span class="result-count">${eventosParaMostrar.length} evento(s)</span>
+            </div>
+            <div class="events-grid">
+                ${eventosParaMostrar.map(evento => criarCardHTML(evento)).join('')}
+            </div>
+        `;
+        attachCardClickEvents();
+    }
+
+    function criarCardHTML(evento) {
         const imgStyle = `background-image: url('${evento.imagem}'); background-size: cover; background-position: center;`;
         return `
-            <div class="card">
+            <div class="card" data-id="${evento.id}">
                 <div class="card-img" style="${imgStyle}">
                     <div class="card-date"><i class="far fa-calendar-alt"></i> ${evento.data}</div>
                 </div>
                 <div class="card-content">
                     <div class="card-title">${evento.titulo}</div>
-                    <div class="card-desc">${desc}</div>
+                    <div class="card-desc">${evento.descricao.length > 110 ? evento.descricao.substring(0,107)+'...' : evento.descricao}</div>
                     <div class="extra-detail"><i class="fas fa-info-circle"></i> ${evento.extra}</div>
-                    <div class="btn-more"><i class="fas fa-eye"></i> Detalhes astronômicos</div>
+                    <div class="badge-click"><i class="fas fa-hand-pointer"></i> Clique para mais detalhes</div>
                 </div>
             </div>
         `;
     }
 
-    // Controle de estado da navegação
-    let currentView = 'home'; // 'home' ou 'eventos'
+    function attachCardClickEvents() {
+        document.querySelectorAll('.card').forEach(card => {
+            card.removeEventListener('click', cardClickHandler);
+            card.addEventListener('click', cardClickHandler);
+        });
+    }
 
-    function updateActiveNav(view) {
+    function cardClickHandler(e) {
+        const cardDiv = e.currentTarget;
+        const id = parseInt(cardDiv.getAttribute('data-id'));
+        const evento = eventos.find(ev => ev.id === id);
+        if (evento) openModal(evento);
+    }
+
+    function openModal(evento) {
+        document.getElementById('modal-title').innerText = evento.titulo;
+        const modalImgDiv = document.getElementById('modal-img');
+        modalImgDiv.style.backgroundImage = `url('${evento.imagem}')`;
+        modalImgDiv.style.backgroundSize = "cover";
+        modalImgDiv.style.backgroundPosition = "center";
+        document.getElementById('modal-date').innerHTML = `<i class="far fa-calendar-alt"></i> ${evento.data}`;
+        document.getElementById('modal-desc').innerHTML = `<strong>Descrição:</strong><br>${evento.descricaoCompleta || evento.descricao}`;
+        document.getElementById('modal-extra').innerHTML = `<i class="fas fa-star-of-life"></i> ${evento.extra}`;
+        const scientificDiv = document.getElementById('modal-scientific');
+        scientificDiv.innerHTML = `<i class="fas fa-globe"></i> Pesquisa Astronômica: ${evento.titulo} é um fenômeno de grande interesse científico. ${evento.categoria ? `Categoria: ${evento.categoria}.` : ''} Dados baseados em efemérides da NASA.`;
+        modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+        modal.style.display = 'none';
+    }
+
+    function escapeHtml(str) {
+        if(!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if(m === '&') return '&amp;';
+            if(m === '<') return '&lt;';
+            if(m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // Pesquisa em tempo real
+    function handleSearch() {
+        currentSearchTerm = searchInput.value;
+        if (currentSearchTerm.trim() === '') {
+            searchClear.style.display = 'none';
+        } else {
+            searchClear.style.display = 'block';
+        }
+        filterEventsBySearch(currentSearchTerm);
+        refreshDisplay();
+    }
+
+    function clearSearch() {
+        searchInput.value = '';
+        currentSearchTerm = '';
+        searchClear.style.display = 'none';
+        filterEventsBySearch('');
+        refreshDisplay();
+    }
+
+    // Navegação
+    function setActiveNav(view) {
         const homeLink = document.getElementById('nav-home');
         const eventosLink = document.getElementById('nav-eventos');
         if (view === 'home') {
@@ -452,49 +709,35 @@
         }
     }
 
-    function loadView(view) {
-        const container = document.getElementById('dynamic-view');
-        if (view === 'home') {
-            container.innerHTML = renderHome();
-            currentView = 'home';
-            updateActiveNav('home');
-            // Rola suavemente para o topo (opcional)
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-            container.innerHTML = renderEventos();
-            currentView = 'eventos';
-            updateActiveNav('eventos');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+    function goToHome() {
+        currentView = 'home';
+        setActiveNav('home');
+        refreshDisplay();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Função para tratar a troca de seção com manipulação de eventos e hash (se quiser)
-    function setupNavigation() {
-        const homeBtn = document.getElementById('nav-home');
-        const eventosBtn = document.getElementById('nav-eventos');
+    function goToEventos() {
+        currentView = 'eventos';
+        setActiveNav('eventos');
+        refreshDisplay();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-        homeBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (currentView !== 'home') loadView('home');
+    // Event listeners e inicialização
+    function init() {
+        document.getElementById('nav-home').addEventListener('click', goToHome);
+        document.getElementById('nav-eventos').addEventListener('click', goToEventos);
+        searchInput.addEventListener('input', handleSearch);
+        searchClear.addEventListener('click', clearSearch);
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
         });
-        eventosBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (currentView !== 'eventos') loadView('eventos');
-        });
+        filterEventsBySearch('');
+        goToHome(); // view inicial
     }
 
-    // Verificar hash inicial (se houver) mas por padrão home
-    function checkInitialHash() {
-        // ignoramos hash, sempre inicia home
-        loadView('home');
-    }
-
-    // Adicionar lazy loading nas imagens do background não precisa, mas garantimos.
-    // Inicialização
-    document.addEventListener('DOMContentLoaded', () => {
-        setupNavigation();
-        checkInitialHash();
-    });
+    init();
 </script>
 </body>
 </html>
