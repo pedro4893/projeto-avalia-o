@@ -839,4 +839,145 @@
                 ${currentSearchTerm ? `<div><span class="pill">🔎 Filtro: "${escapeHtml(currentSearchTerm)}" · ${eventosParaMostrar.length} resultados</span></div>` : ''}
             </div>
             <div class="section-title">
-                <span><i class="fas fa-moon"></i> Cronologia Celeste</span
+                <span><i class="fas fa-moon"></i> Cronologia Celeste</span>
+                <span class="result-count">${eventosParaMostrar.length} evento(s)</span>
+            </div>
+            <div class="events-grid">
+                ${eventosParaMostrar.map(evento => criarCardHTML(evento)).join('')}
+            </div>
+        `;
+        attachCardClickEvents();
+    }
+
+    function criarCardHTML(evento) {
+        const imgStyle = `background-image: url('${evento.imagem}'); background-size: cover; background-position: center;`;
+        return `
+            <div class="card" data-id="${evento.id}">
+                <div class="card-img" style="${imgStyle}">
+                    <div class="card-date"><i class="far fa-calendar-alt"></i> ${evento.data}</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">${evento.titulo}</div>
+                    <div class="card-desc">${evento.descricao.length > 110 ? evento.descricao.substring(0,107)+'...' : evento.descricao}</div>
+                    <div class="extra-detail"><i class="fas fa-info-circle"></i> ${evento.extra}</div>
+                    <div class="badge-click"><i class="fas fa-hand-pointer"></i> Clique para mais detalhes</div>
+                </div>
+            </div>
+        `;
+    }
+
+    function attachCardClickEvents() {
+        document.querySelectorAll('.card').forEach(card => {
+            card.removeEventListener('click', cardClickHandler);
+            card.addEventListener('click', cardClickHandler);
+        });
+    }
+
+    function cardClickHandler(e) {
+        const cardDiv = e.currentTarget;
+        const id = parseInt(cardDiv.getAttribute('data-id'));
+        const evento = eventos.find(ev => ev.id === id);
+        if (evento) openModal(evento);
+    }
+
+    function openModal(evento) {
+        document.getElementById('modal-title').innerText = evento.titulo;
+        const modalImgDiv = document.getElementById('modal-img');
+        modalImgDiv.style.backgroundImage = `url('${evento.imagem}')`;
+        modalImgDiv.style.backgroundSize = "cover";
+        modalImgDiv.style.backgroundPosition = "center";
+        document.getElementById('modal-date').innerHTML = `<i class="far fa-calendar-alt"></i> ${evento.data}`;
+        document.getElementById('modal-desc').innerHTML = `<strong>Descrição Completa:</strong><br>${evento.descricaoCompleta || evento.descricao}`;
+        document.getElementById('modal-extra').innerHTML = `<i class="fas fa-star-of-life"></i> ${evento.extra}`;
+        document.getElementById('modal-scientific').innerHTML = `<i class="fas fa-globe"></i> Pesquisa Astronômica: ${evento.titulo} é um fenômeno de grande interesse. ${evento.categoria ? `Categoria: ${evento.categoria}.` : ''}`;
+        modal.style.display = 'flex';
+        stopCarousel();
+    }
+
+    function closeModalFunc() {
+        modal.style.display = 'none';
+        if (currentView === 'home') startCarousel();
+    }
+
+    function escapeHtml(str) {
+        if(!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if(m === '&') return '&amp;';
+            if(m === '<') return '&lt;';
+            if(m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function handleSearch() {
+        currentSearchTerm = searchInput.value;
+        if (currentSearchTerm.trim() === '') {
+            searchClear.style.display = 'none';
+        } else {
+            searchClear.style.display = 'block';
+        }
+        filterEventsBySearch(currentSearchTerm);
+        if (currentView === 'home') {
+            carouselIndex = 0;
+            refreshDisplay();
+        } else {
+            refreshDisplay();
+        }
+    }
+
+    function clearSearch() {
+        searchInput.value = '';
+        currentSearchTerm = '';
+        searchClear.style.display = 'none';
+        filterEventsBySearch('');
+        if (currentView === 'home') carouselIndex = 0;
+        refreshDisplay();
+    }
+
+    function setActiveNav(view) {
+        const homeLink = document.getElementById('nav-home');
+        const eventosLink = document.getElementById('nav-eventos');
+        if (view === 'home') {
+            homeLink.classList.add('active');
+            eventosLink.classList.remove('active');
+        } else {
+            homeLink.classList.remove('active');
+            eventosLink.classList.add('active');
+        }
+    }
+
+    function goToHome() {
+        currentView = 'home';
+        setActiveNav('home');
+        filterEventsBySearch(currentSearchTerm);
+        carouselIndex = 0;
+        refreshDisplay();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goToEventos() {
+        currentView = 'eventos';
+        setActiveNav('eventos');
+        stopCarousel();
+        filterEventsBySearch(currentSearchTerm);
+        refreshDisplay();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function init() {
+        document.getElementById('nav-home').addEventListener('click', goToHome);
+        document.getElementById('nav-eventos').addEventListener('click', goToEventos);
+        searchInput.addEventListener('input', handleSearch);
+        searchClear.addEventListener('click', clearSearch);
+        closeModalBtn.addEventListener('click', closeModalFunc);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModalFunc();
+        });
+        filterEventsBySearch('');
+        goToHome();
+    }
+
+    init();
+</script>
+</body>
+</html>
